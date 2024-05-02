@@ -1,7 +1,11 @@
+import Feeds from './pages/post/Feeds.jsx';
+import PostModal from './pages/post/PostModal.jsx';
+
 function App() {
   return (
     <>
-      <h1>안녕 리액트!</h1>
+    <Feeds/>
+    <PostModal/>
     </>
   );
 }
