@@ -28,18 +28,19 @@ const Button = styled.button`
     cursor: not-allowed; /* 비활성화된 상태일 때 커서를 기본값으로 변경 */
   }
 `;
+
 const StyledIcon = styled(ArrowIcon)`
   width: 18px;
   height: 18px;
 `;
 
-const QuestionButtonTop = ({ text }) => {
+function QuestionButtonTop() {
   return (
     <Button>
-      {text}질문하러 가기
+      질문하러 가기
       <StyledIcon />
     </Button>
   );
-};
+}
 
 export default QuestionButtonTop;
