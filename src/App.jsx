@@ -1,7 +1,11 @@
+import QuestionButtonTop from "./components/UI/QuestionButtonTop";
+import HomePage from "./pages/HomePage";
+
 function App() {
   return (
     <>
-      <h1>안녕 리액트!</h1>
+      <HomePage />
+      <QuestionButtonTop />
     </>
   );
 }
