@@ -5,6 +5,8 @@ import DropdownMenu from "./components/UI/DopdownMenu";
 import TextAreaItem from "./components/UI/TextAreaItem";
 import UserCard from "./pages/components/UserCard";
 import NoQuestion from "./components/UI/NoQuestion";
+import Feeds from "./pages/post/Feeds.jsx";
+import PostModal from "./pages/post/PostModal.jsx";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
       />
       <UserCard />
       <NoQuestion />
+      <Feeds />
+      <PostModal />
     </>
   );
 }
