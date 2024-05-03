@@ -7,6 +7,7 @@ import UserCard from "./pages/components/UserCard";
 import NoQuestion from "./components/UI/NoQuestion";
 import Feeds from "./pages/post/Feeds.jsx";
 import PostModal from "./pages/post/PostModal.jsx";
+import QuestionListUser from "./components/UI/QuestionListUser.jsx";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <NoQuestion />
       <Feeds />
       <PostModal />
+      <QuestionListUser />
     </>
   );
 }
