@@ -1,19 +1,18 @@
 import styled from "styled-components";
 import React from "react";
-import OpenMindBackImg from "./assets/backImg.svg";
-import OpenMindLogo from "./assets/logo.svg";
-import UserLogo from "./assets/redpanda.jpg";
-import SnsLink from "./assets/ic_link.svg";
-import SnsKaKaoTalk from "./assets/ic_kakaotalk.svg";
-import SnsFacebook from "./assets/ic_facebook.svg";
-import QuestIcon from "./assets/ic_messages.svg";
+import OpenMindLogo from "../../assets/logo/logo.svg";
+import SnsLink from "../../assets/icons/ic_link_color.svg?react";
+import SnsKakaoTalk from "../../assets/icons/ic_kakaotalk_color.svg?react";
+import SnsFaceBook from "../../assets/icons/ic_facebook_color.svg?react";
+import QuestIcon from "../../assets/icons/ic_messages.svg?react";
 import QuestionListItems from "./QuestionListItems";
+/* svrg 사용 */
 
 const Container = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  background-image: url("${OpenMindBackImg}");
+  background-image: url("${OpenMindLogo}"); //임시 이미지 지정
   background-repeat: no-repeat;
   background-position: top center;
 `;
@@ -75,7 +74,7 @@ const QuestionCreateBtnArea = styled.div`
   display: flex;
   justify-content: end;
   padding: 24px 12px;
-`
+`;
 const QuestionCreateBtn = styled.button`
   width: 208px;
   height: 54px;
@@ -95,12 +94,13 @@ function QuestionListUser() {
     <Container>
       <Profile>
         <OpenMind src={OpenMindLogo} alt={OpenMindLogo} />
-        <TitleIcon src={UserLogo} />
+        <TitleIcon src={SnsFaceBook} />
+        {/* 임시 이미지 지정 */}
         <NickName>아초는고양이</NickName>
         <SnsArea>
-          <SnsIcon src={SnsLink} />
-          <SnsIcon src={SnsKaKaoTalk} />
-          <SnsIcon src={SnsFacebook} />
+          <SnsLink />
+          <SnsKakaoTalk />
+          <SnsFaceBook />
         </SnsArea>
       </Profile>
       <QuestionBox>
