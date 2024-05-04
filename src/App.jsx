@@ -8,25 +8,16 @@ import NoQuestion from "./components/UI/NoQuestion";
 import Feeds from "./pages/post/Feeds.jsx";
 import PostModal from "./pages/post/PostModal.jsx";
 import QuestionListUser from "./components/UI/QuestionListUser.jsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AnswerPage from "./pages/AnswerPage.jsx";
 
 function App() {
   return (
-    <>
-      <GlobalStyle />
-      <h1>안녕 리액트!</h1>
-      <FaceBook />
-      <DropdownMenu />
-      <TextAreaItem
-        id="description"
-        label="상품 소개"
-        placeholder="상품 소개를 입력해 주세요"
-      />
-      <UserCard />
-      <NoQuestion />
-      <Feeds />
-      <PostModal />
-      <QuestionListUser />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<AnswerPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -7,6 +7,7 @@ import SnsLink from "../../assets/icons/ic_link_color.svg?react";
 import SnsKakaoTalk from "../../assets/icons/ic_kakaotalk_color.svg?react";
 import SnsFaceBook from "../../assets/icons/ic_facebook_color.svg?react";
 import ToastMessage from "./ToastMessage";
+import * as func from "../../util/Sns.js";
 
 const Container = styled.div`
   width: 100%;
@@ -49,13 +50,18 @@ const SnsArea = styled.div`
   gap: 12px;
 `;
 
-const HeadProfile = () => {
+const HeadProfile = ({ name, image }) => {
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false); // 토스트메시지의 가시성
 
+  const Url = window.location.href; // 현재 페이지의 URL을 가져오기
+
+  const shareKakao = (name, image, url) => {
+    func.shareKakao(name, image, url);
+  };
+
   const handleCopyToClipboard = () => {
-    const url = window.location.href; // 현재 페이지의 URL을 가져오기
-    navigator.clipboard.writeText(url);
+    navigator.clipboard.writeText(Url);
     setCopied(true);
 
     setShowToast(true); // 토스트 메시지 표시하기
@@ -77,7 +83,12 @@ const HeadProfile = () => {
               onClick={handleCopyToClipboard}
               style={{ cursor: "pointer" }}
             />
-            <SnsKakaoTalk />
+            <SnsKakaoTalk
+              onClick={() => {
+                shareKakao(name, image, Url);
+              }}
+              style={{ cursor: "pointer" }}
+            />
             <SnsFaceBook />
           </SnsArea>
         </Profile>
