@@ -2,6 +2,8 @@ import styled from "styled-components";
 import React from "react";
 import Like from "../../assets/icons/ic_thumbs_up.svg?react";
 import UnLike from "../../assets/icons/ic_thumbs_down.svg?react";
+import TextAreaItem from "../UI/TextAreaItem";
+import Kebab from "../../assets/icons/ic_more.svg?react";
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -69,6 +71,7 @@ const QuestionLikeArea = styled.div`
 `;
 const LikeArea = styled.div`
   display: flex;
+  align-items: center; //align 중앙정렬
   gap: 6px;
   color: #818181;
 `;
@@ -83,26 +86,38 @@ const LikeText = styled.span`
   font-size: 14px;
   cursor: pointer;
 `;
+const QuestionHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
-function QuestionListItems() {
+function QuestionListItems({ type }) {
+  //props 내려서 type에 따라 보이는 컴포넌트 변경(kebab, textarea)
   return (
     <QuestionArea>
-      <QuestionClearButton value="답변 완료" />
+      <QuestionHeader>
+        <QuestionClearButton value="답변 완료" />
+        {type ? <Kebab /> : null}
+      </QuestionHeader>
       <QuestionTitleArea>
         <span>질문 · 2주전</span>
         <QuestionTitle>좋아하는 동물은?</QuestionTitle>
       </QuestionTitleArea>
       <QuestionTextArea>
         <QuestionTitleIcon src="" alt="" />
-        <AnswerArea>
-          <QuestionUserNickNameArea>
-            <h3>마초는고양이</h3>
-            <span>2주전</span>
-          </QuestionUserNickNameArea>
-          <p>
-            그들을 불러 귀는 이상의 오직 피고, 가슴이 이상, 못할 봄바람이다.
-          </p>
-        </AnswerArea>
+        {type ? (
+          <TextAreaItem />
+        ) : (
+          <AnswerArea>
+            <QuestionUserNickNameArea>
+              <h3>마초는고양이</h3>
+              <span>2주전</span>
+            </QuestionUserNickNameArea>
+            <p>
+              그들을 불러 귀는 이상의 오직 피고, 가슴이 이상, 못할 봄바람이다.
+            </p>
+          </AnswerArea>
+        )}
       </QuestionTextArea>
       <QuestionLikeArea>
         <LikeArea>

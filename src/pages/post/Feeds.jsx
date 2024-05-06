@@ -1,9 +1,13 @@
-import PostButton from './PostButton.jsx';
+import PostButton from "./PostButton.jsx";
+import QuestionListUser from "../../components/UI/QuestionListUser";
 
 function Feeds() {
-    return(
-    <PostButton/>
-    )
+  return (
+    <>
+      <QuestionListUser type={false} />
+      <PostButton />
+    </>
+  );
 }
 
 export default Feeds;
