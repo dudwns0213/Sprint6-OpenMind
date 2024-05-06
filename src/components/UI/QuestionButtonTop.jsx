@@ -2,20 +2,27 @@ import React from "react";
 import styled from "styled-components";
 import ArrowIcon from "../../assets/icons/arrow_right.svg?react";
 
+const Background = styled.div`
+  
+  background-color: none;
+`
+
 const Button = styled.button`
   width: 161px;
   height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #f5f1ee;
   color: #542f1a;
   font-size: 16px;
   font-weight: 400;
-  padding: 12px 24px;
   border: 1px solid #542f1a;
   border-radius: 8px;
   cursor: pointer;
+  position: absolute;
+  top: 45px;
+  right: 130px;
+  text-decoration: none;
+  padding: 12px 42px 12px 13px;
+  
   &:hover {
     border: 2px solid #542f1a;
   }
@@ -32,14 +39,21 @@ const Button = styled.button`
 const StyledIcon = styled(ArrowIcon)`
   width: 18px;
   height: 18px;
+  position: absolute;
+  top: 14px;
+  right: 14px;
 `;
+
+//arrowicon brown_40으로 재다운로드 필요
 
 function QuestionButtonTop() {
   return (
-    <Button>
-      질문하러 가기
-      <StyledIcon />
-    </Button>
+    <Background>
+      <Button>
+        질문하러 가기
+        <StyledIcon />
+      </Button>
+      </Background>  
   );
 }
 
