@@ -12,16 +12,27 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.56);
+  z-index: 0;
+  /* touch-action: none;
+  -webkit-overflow-scrolling: none;
+  overflow: hidden;
+  overscroll-behavior: none; */
 `;
 
 const PostModalPage = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -227px;
+  margin-left: -306px;
   width: 612px;
   height: 454px;
   border-radius: 24px;
-  border-line: none;
+  border-style: none;
   box-shadow: 0px 16px 20px rgba(48, 48, 48, 0.62);
   background-color: ${colors.GRAYSCALE_10};
   padding: 40px 40px 104px;
+  z-index: 2;
 `;
 
 const ModalPageContainer = styled.div`
@@ -127,35 +138,33 @@ const ModalPostButton = styled.button`
   font-size: 16px;
 `;
 
-function PostModal() {
+function PostModal({ closeModal }) {
   return (
     <div className="global">
-      <ModalBackground>
-        <PostModalPage>
-          <ModalPageContainer>
-            <ModalHeader>
-              <HeaderContent>
-                <ModalHeaderIcon src={messageIcon} />
-                <p>질문을 작성하세요</p>
-              </HeaderContent>
-              <a href="./Feeds.jsx">
-                <ModalClose src={closeIcon} />
-              </a>
-            </ModalHeader>
-            <ModalContent>
-              <ModalProfile>
-                <ProfileText>To.</ProfileText>
-                <IconProfile src={iconProfile} />
-                <p>아초는 고양이</p>
-              </ModalProfile>
-              <TextContainer>
-                <ModalTextArea placeholder="질문을 입력해주세요" />
-              </TextContainer>
-              <ModalPostButton>질문 보내기</ModalPostButton>
-            </ModalContent>
-          </ModalPageContainer>
-        </PostModalPage>
-      </ModalBackground>
+      <ModalBackground onClick={closeModal}></ModalBackground>
+      <PostModalPage>
+        <ModalPageContainer>
+          <ModalHeader>
+            <HeaderContent>
+              <ModalHeaderIcon src={messageIcon} />
+              <p>질문을 작성하세요</p>
+            </HeaderContent>
+
+            <ModalClose src={closeIcon} onClick={closeModal} />
+          </ModalHeader>
+          <ModalContent>
+            <ModalProfile>
+              <ProfileText>To.</ProfileText>
+              <IconProfile src={iconProfile} />
+              <p>아초는 고양이</p>
+            </ModalProfile>
+            <TextContainer>
+              <ModalTextArea placeholder="질문을 입력해주세요" />
+            </TextContainer>
+            <ModalPostButton>질문 보내기</ModalPostButton>
+          </ModalContent>
+        </ModalPageContainer>
+      </PostModalPage>
     </div>
   );
 }
