@@ -60,6 +60,10 @@ const HeadProfile = ({ name, image }) => {
     func.shareKakao(name, image, url);
   };
 
+  const shareFacebook = (url) => {
+    func.shareFacebook(url);
+  };
+
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(Url);
     setCopied(true);
@@ -89,7 +93,12 @@ const HeadProfile = ({ name, image }) => {
               }}
               style={{ cursor: "pointer" }}
             />
-            <SnsFaceBook />
+            <SnsFaceBook
+              onClick={() => {
+                shareFacebook(Url);
+              }}
+              style={{ cursor: "pointer" }}
+            />
           </SnsArea>
         </Profile>
       </Container>

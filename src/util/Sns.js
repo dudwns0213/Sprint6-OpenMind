@@ -25,3 +25,11 @@ export const shareKakao = (name, src, Url) => {
     ],
   });
 };
+
+export const shareFacebook = (Url) => {
+  window.open(
+    `http://www.facebook.com/sharer/sharer.php?u=${Url}`,
+    "popup",
+    "width=450, height=300, top=150, left=100. scrollbars=yes"
+  );
+};

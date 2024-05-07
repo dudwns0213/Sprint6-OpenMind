@@ -2,6 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
 
+const Container = styled.div`
+  max-width: 684px;
+  height: 50px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+`;
+
 const ButtonDelete = styled.button`
   background-color: ${colors.BROWN_40};
   width: 100px;
@@ -15,17 +23,17 @@ const ButtonDelete = styled.button`
   font-weight: 400;
   cursor: pointer;
 
-  position: absolute; //버튼 위치 배치하기
-  top: 50%;
-  right: 265px;
-  transform: translateY(-90%);
-
   display: flex;
   align-items: center; //글씨를 세로 기준으로 중앙에 오도록
 `;
 
 const DeleteButton = () => {
-  return <ButtonDelete>삭제하기</ButtonDelete>;
+  return (
+    <Container>
+      <span></span>
+      <ButtonDelete>삭제하기</ButtonDelete>
+    </Container>
+  );
 };
 
 export default DeleteButton;
