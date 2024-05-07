@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
-import messageIcon from "../../assets/icons/ic_messages.svg";
-import closeIcon from "../../assets/icons/ic_close.svg";
-import iconProfile from "../../assets/icons/ic_person.svg";
+import messageIcon from "../../assets/icons/ic_messages.svg?react";
+import closeIcon from "../../assets/icons/ic_close.svg?react";
+import iconProfile from "../../assets/icons/ic_person.svg?react";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -13,10 +13,6 @@ const ModalBackground = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0.56);
   z-index: 0;
-  /* touch-action: none;
-  -webkit-overflow-scrolling: none;
-  overflow: hidden;
-  overscroll-behavior: none; */
 `;
 
 const PostModalPage = styled.div`

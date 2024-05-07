@@ -1,12 +1,19 @@
 import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
-import Feeds from "./pages/post/Feeds.jsx";
+import QuestionsListPage from "./pages/QuestionsListPage";
+import Feeds from "./pages/post/Feeds";
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <Feeds />
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<QuestionsListPage />} />
+          <Route path="/feeds" element={<Feeds />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

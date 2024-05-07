@@ -1,9 +1,11 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Like from "../../assets/icons/ic_thumbs_up.svg?react";
 import UnLike from "../../assets/icons/ic_thumbs_down.svg?react";
 import TextAreaItem from "../UI/TextAreaItem";
 import Kebab from "../../assets/icons/ic_more.svg?react";
+import { colors } from "../../styles/colors";
+import getUsers from "../../api/getUsers";
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -24,12 +26,14 @@ const QuestionArea = styled.div`
   padding: 32px 32px;
   width: 100%;
 `;
-const QuestionClearButton = styled.button`
+const QuestionClearButton = styled.div`
   color: #542f1a;
   background-color: #fff;
   font-size: 14px;
   font-weight: 500;
-  line-height: 18px;
+  display: flex; //텍스트 중앙정렬
+  justify-content: center;
+  align-items: center;
   width: 78px;
   height: 26px;
   border-radius: 8px;
@@ -74,6 +78,7 @@ const LikeArea = styled.div`
   align-items: center; //align 중앙정렬
   gap: 6px;
   color: #818181;
+  cursor: pointer;
 `;
 const LikeIcon = styled.img`
   width: 14.12px;
@@ -84,49 +89,100 @@ const UnLikeIcon = styled(LikeIcon)`
 `;
 const LikeText = styled.span`
   font-size: 14px;
-  cursor: pointer;
 `;
 const QuestionHeader = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const AnswerContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+const Since = styled.span`
+  color: ${colors.GRAYSCALE_40};
+  font-size: 0.85rem;
+`;
 
-function QuestionListItems({ type }) {
+function QuestionListItems({ type, question }) {
   //props 내려서 type에 따라 보이는 컴포넌트 변경(kebab, textarea)
+  const [subjectsData, setSubjectsData] = useState([]);
+
+  const fetchSubjects = async () => {
+    const users = await getUsers();
+    console.log(users);
+    setSubjectsData(users);
+  };
+  useEffect(() => {
+    fetchSubjects();
+  }, []);
+
+  function timeSince(dateString) {
+    //질문, 답변 시간 계산 함수
+    const date = new Date(dateString);
+    const seconds = Math.floor((new Date() - date) / 1000);
+
+    let interval = seconds / 31536000;
+
+    if (interval > 1) {
+      return Math.floor(interval) + "년전";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+      return Math.floor(interval) + "개월전";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+      return Math.floor(interval) + "일전";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+      return Math.floor(interval) + "시간전";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return Math.floor(interval) + "분전";
+    }
+    return Math.floor(seconds) + "초전";
+  }
   return (
     <QuestionArea>
       <QuestionHeader>
-        <QuestionClearButton value="답변 완료" />
+        <QuestionClearButton>
+          {question.answer ? "답변완료" : "미답변"}
+        </QuestionClearButton>
         {type ? <Kebab /> : null}
       </QuestionHeader>
       <QuestionTitleArea>
-        <span>질문 · 2주전</span>
-        <QuestionTitle>좋아하는 동물은?</QuestionTitle>
+        <Since>질문 · {timeSince(`${question.createdAt}`)}</Since>
+        <QuestionTitle>{question.content}</QuestionTitle>
       </QuestionTitleArea>
       <QuestionTextArea>
-        <QuestionTitleIcon src="" alt="" />
         {type ? (
           <TextAreaItem />
         ) : (
-          <AnswerArea>
-            <QuestionUserNickNameArea>
-              <h3>마초는고양이</h3>
-              <span>2주전</span>
-            </QuestionUserNickNameArea>
-            <p>
-              그들을 불러 귀는 이상의 오직 피고, 가슴이 이상, 못할 봄바람이다.
-            </p>
-          </AnswerArea>
+          question.answer && (
+            <AnswerContainer>
+              <QuestionTitleIcon src={subjectsData.imageSource} />
+              <AnswerArea>
+                <QuestionUserNickNameArea>
+                  <h3>{subjectsData.name}</h3>
+                  <Since>{timeSince(`${question.answer.createdAt}`)}</Since>
+                </QuestionUserNickNameArea>
+                <p>{question.answer.content}</p>
+                <p>{question.answer.isRejected ? "답변거절" : null}</p>
+              </AnswerArea>
+            </AnswerContainer>
+          )
         )}
       </QuestionTextArea>
       <QuestionLikeArea>
         <LikeArea>
           <Like />
-          <LikeText>좋아요</LikeText>
+          <LikeText>좋아요 {question.like}</LikeText>
         </LikeArea>
         <LikeArea>
           <UnLike />
-          <LikeText>싫어요</LikeText>
+          <LikeText>싫어요 {question.dislike}</LikeText>
         </LikeArea>
       </QuestionLikeArea>
     </QuestionArea>
