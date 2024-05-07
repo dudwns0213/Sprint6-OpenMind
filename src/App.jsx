@@ -4,6 +4,8 @@ import GlobalStyle from "./styles/GlobalStyle";
 import FaceBook from "./assets/icons/ic_facebook.svg?react"; // svgr 사용 예시
 import QuestionsListPage from "./pages/QuestionsListPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AnswerPage from "./pages/AnswerPage.jsx";
 
 function App() {
   return (
@@ -11,7 +13,7 @@ function App() {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route index element={<HomePage />} />
+          <Route index element={<AnswerPage />} />
           <Route path="post/5819" element={<QuestionsListPage />} />
         </Routes>
       </BrowserRouter>
