@@ -1,8 +1,9 @@
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
-import messageIcon from "../../assets/icons/ic_messages.svg";
-import closeIcon from "../../assets/icons/ic_close.svg";
-import iconProfile from "../../assets/icons/ic_person.svg";
+import MessageIcon from "../../assets/icons/ic_messages.svg?react";
+import CloseIcon from "../../assets/icons/ic_close.svg?react";
+import IconProfile from "../../assets/icons/ic_person.svg?react";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -12,16 +13,23 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.56);
+  z-index: 0;
 `;
 
 const PostModalPage = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -227px;
+  margin-left: -306px;
   width: 612px;
   height: 454px;
   border-radius: 24px;
-  border-line: none;
+  border-style: none;
   box-shadow: 0px 16px 20px rgba(48, 48, 48, 0.62);
   background-color: ${colors.GRAYSCALE_10};
   padding: 40px 40px 104px;
+  z-index: 2;
 `;
 
 const ModalPageContainer = styled.div`
@@ -66,11 +74,6 @@ const ModalContent = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-`;
-const IconProfile = styled.img`
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
 `;
 
 const ModalProfile = styled.div`
@@ -127,35 +130,49 @@ const ModalPostButton = styled.button`
   font-size: 16px;
 `;
 
-function PostModal() {
+function PostModal({ closeModal }) {
+  const [inputValue, setInputValue] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    setIsButtonDisabled(inputValue.trim() === "");
+  }, [inputValue]);
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <div className="global">
-      <ModalBackground>
-        <PostModalPage>
-          <ModalPageContainer>
-            <ModalHeader>
-              <HeaderContent>
-                <ModalHeaderIcon src={messageIcon} />
-                <p>질문을 작성하세요</p>
-              </HeaderContent>
-              <a href="./Feeds.jsx">
-                <ModalClose src={closeIcon} />
-              </a>
-            </ModalHeader>
-            <ModalContent>
-              <ModalProfile>
-                <ProfileText>To.</ProfileText>
-                <IconProfile src={iconProfile} />
-                <p>아초는 고양이</p>
-              </ModalProfile>
-              <TextContainer>
-                <ModalTextArea placeholder="질문을 입력해주세요" />
-              </TextContainer>
-              <ModalPostButton>질문 보내기</ModalPostButton>
-            </ModalContent>
-          </ModalPageContainer>
-        </PostModalPage>
-      </ModalBackground>
+      <ModalBackground onClick={closeModal}></ModalBackground>
+      <PostModalPage>
+        <ModalPageContainer>
+          <ModalHeader>
+            <HeaderContent>
+              <MessageIcon />
+              <p>질문을 작성하세요</p>
+            </HeaderContent>
+            <CloseIcon onClick={closeModal} />
+          </ModalHeader>
+          <ModalContent>
+            <ModalProfile>
+              <ProfileText>To.</ProfileText>
+              <IconProfile />
+              <p>아초는 고양이</p>
+            </ModalProfile>
+            <TextContainer>
+              <ModalTextArea
+                placeholder="질문을 입력해주세요"
+                value={inputValue}
+                onChange={handleInputChange}
+              />
+            </TextContainer>
+            <ModalPostButton disabled={isButtonDisabled}>
+              질문 보내기
+            </ModalPostButton>
+          </ModalContent>
+        </ModalPageContainer>
+      </PostModalPage>
     </div>
   );
 }

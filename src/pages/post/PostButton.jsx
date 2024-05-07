@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import {colors} from '../../styles/colors';
+import styled from "styled-components";
+import { colors } from "../../styles/colors";
 
 const ButtonPost = styled.button`
   background-color: ${colors.BROWN_40};
@@ -12,14 +12,12 @@ const ButtonPost = styled.button`
   color: #ffffff;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   position: fixed;
-  bottom: 8px;
-  right: 8px;
-`
+  bottom: 20px;
+  right: 20%;
+`;
 
-function PostButton() {
-  return(
-    <a href="./"><ButtonPost>질문 작성하기</ButtonPost></a>
-  )
+function PostButton({ onClick }) {
+  return <ButtonPost onClick={onClick}>질문 작성하기</ButtonPost>;
 }
 
 export default PostButton;

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PersonIcon from "../assets/icons/ic_person.svg?react";
+import Feeds from "./post/Feeds";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -77,6 +78,7 @@ const HomePage = () => {
         <Input placeholder="이름을 입력하세요" />
       </InputContainer>
       <QuestionButton>질문 받기</QuestionButton>
+      <Feeds />
     </StyledDiv>
   );
 };
