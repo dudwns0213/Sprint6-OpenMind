@@ -14,5 +14,6 @@ function QuestionsCard({ question }) {
       )}
     </div>
   );
+}
 
 export default QuestionsCard;
