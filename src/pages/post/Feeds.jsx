@@ -3,7 +3,7 @@ import PostButton from "./PostButton.jsx";
 import PostModal from "./PostModal";
 import QuestionListUser from "../../components/UI/QuestionListUser";
 
-function Feeds({ question }) {
+function Feeds() {
   const [modal, setModal] = useState(false);
 
   const showModal = () => {
@@ -17,7 +17,7 @@ function Feeds({ question }) {
   return (
     <>
       {modal ? <PostModal closeModal={closeModal} /> : null}
-      <QuestionListUser type={false} question={question} />
+      <QuestionListUser type={false} />
       <PostButton />
       <PostButton onClick={() => showModal()} />
     </>

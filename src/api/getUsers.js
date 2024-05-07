@@ -1,15 +1,10 @@
 const OPENMIND_API = "https://openmind-api.vercel.app/6-7/";
 const SUBJECTS = "subjects";
-const QUESTIONS = "questions";
-const ANSWERS = "answers";
-
-export async function getQuestions(params = {}) {
+export async function getUsers(params = {}) {
   const query = new URLSearchParams(params).toString();
 
   try {
-    const response = await fetch(
-      `${OPENMIND_API}${SUBJECTS}/5819/${QUESTIONS}/?${query}/`
-    );
+    const response = await fetch(`${OPENMIND_API}${SUBJECTS}/5819/?${query}/`);
 
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
@@ -22,4 +17,4 @@ export async function getQuestions(params = {}) {
   }
 }
 
-export default getQuestions;
+export default getUsers;

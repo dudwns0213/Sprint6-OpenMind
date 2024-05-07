@@ -6,6 +6,7 @@ import QuestionsListPage from "./pages/QuestionsListPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AnswerPage from "./pages/AnswerPage.jsx";
+import Feeds from "./pages/post/Feeds";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<AnswerPage />} />
-          <Route path="post/5819" element={<QuestionsListPage />} />
+          <Route path="/quetions" element={<QuestionsListPage />} />
+          <Route path="/feeds" element={<Feeds />} />
         </Routes>
       </BrowserRouter>
     </>

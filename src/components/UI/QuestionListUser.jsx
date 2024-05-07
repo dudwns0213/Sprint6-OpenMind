@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import React from "react";
-import QuestIcon from "../../assets/icons/ic_messages.svg?react";
+import React, { useState, useEffect } from "react";
+import QuestionIcon from "../../assets/icons/ic_messages.svg?react";
 import QuestionListItems from "./QuestionListItems";
-/* svrg 사용 */
+import getQuestions from "../../api/api.js";
 
 const QuestionBox = styled.div`
   background-color: #f5f1ee;
@@ -22,18 +22,34 @@ const QuestionBrownText = styled.div`
   justify-content: center;
   gap: 8px;
 `;
-const QuestionIcon = styled.img`
-  color: #542f1a;
-`;
 
-function QuestionListUser() {
+function QuestionListUser({ type }) {
+  const [questionsData, setQuestionsData] = useState([]);
+  const [limit, setLimit] = useState(8);
+  const [offset, setOffset] = useState(0);
+
+  const fetchQuestions = async ({ limit, offset }) => {
+    const data = await getQuestions({ limit, offset });
+    console.log(data);
+    setQuestionsData(data);
+  };
+  useEffect(() => {
+    fetchQuestions({ limit, offset });
+  }, [limit, offset]);
+
   return (
     <QuestionBox>
       <QuestionBrownText>
-        <QuestionIcon src={QuestIcon} alt={QuestIcon} />
-        <span>3개의 질문이 있습니다</span>
+        <QuestionIcon />
+        <span>{questionsData.count}개의 질문이 있습니다</span>
       </QuestionBrownText>
-      <QuestionListItems />
+      {questionsData.results?.map((question) => (
+        <QuestionListItems
+          question={question}
+          key={`${question.id}`}
+          type={type}
+        />
+      ))}
     </QuestionBox>
   );
 }
