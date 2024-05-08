@@ -108,6 +108,9 @@ const KebabContainer = styled.div`
   position: relative;
   cursor: pointer;
 `;
+const IsReject = styled.p`
+  color: #b93333;
+`;
 
 function QuestionListItems({ type, question }) {
   //props 내려서 type에 따라 보이는 컴포넌트 변경(kebab, textarea)
@@ -156,8 +159,11 @@ function QuestionListItems({ type, question }) {
                   <h3>{subjectsData.name}</h3>
                   <Since>{timeSince(`${question.answer.createdAt}`)}</Since>
                 </QuestionUserNickNameArea>
-                <p>{question.answer.content}</p>
-                <p>{question.answer.isRejected ? "답변거절" : null}</p>
+                {question.answer.isRejected ? (
+                  <IsReject>답변거절</IsReject>
+                ) : (
+                  <p>{question.answer.content}</p>
+                )}
               </AnswerArea>
             </AnswerContainer>
           )
