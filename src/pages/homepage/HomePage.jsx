@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 
-import {colors} from "../styles/colors";
-import InputForm from "../components/UI/InputForm";
-import QuestionButtonTop from "../components/UI/QuestionButtonTop";
-import PersonIcon from "../assets/icons/ic_person.svg"
-import BackImg from "../assets/logo/logo.svg"
+import {colors} from "../../styles/colors";
+import InputForm from "../../components/UI/InputForm";
+import QuestionButtonTop from "../../components/UI/QuestionButtonTop";
+import PersonIcon from "../../assets/icons/ic_person.svg";
+import BackImg from "../../assets/logo/logo.svg";
 
 
 const Background = styled.div`

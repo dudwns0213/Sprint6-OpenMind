@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router} from 'react-router-dom';
 import GlobalStyle from "./styles/GlobalStyle";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/homepage/HomePage";
 import RoutesComponent from "./components/Routes";
 
 
