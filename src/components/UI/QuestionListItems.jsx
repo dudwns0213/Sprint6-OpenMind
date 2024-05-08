@@ -8,6 +8,7 @@ import { colors } from "../../styles/colors";
 import getUsers from "../../api/getUsers";
 import { timeSince } from "../../util/TimeSince";
 import KebabDropdown from "./KebabDropdown";
+import postReaction from "../../api/postReaction";
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -91,6 +92,7 @@ const UnLikeIcon = styled(LikeIcon)`
 `;
 const LikeText = styled.span`
   font-size: 14px;
+  color: ${(props) => props.color || "black"};
 `;
 const QuestionHeader = styled.div`
   display: flex;
@@ -116,6 +118,11 @@ function QuestionListItems({ type, question }) {
   //props 내려서 type에 따라 보이는 컴포넌트 변경(kebab, textarea)
   const [subjectsData, setSubjectsData] = useState([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [likeColor, setLikeColor] = useState("black");
+  const [dislikeColor, setDislikeColor] = useState("black");
+  const [likeCount, setLikeCount] = useState(question.like);
+  const [dislikeCount, setDislikeCount] = useState(question.dislike);
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
@@ -123,12 +130,34 @@ function QuestionListItems({ type, question }) {
 
   const fetchSubjects = async () => {
     const users = await getUsers();
-    console.log(users);
+    // console.log(users);
     setSubjectsData(users);
   };
+
   useEffect(() => {
     fetchSubjects();
   }, []);
+
+  const handleClick = async (id, type) => {
+    if (isClicked) return; // 이미 클릭되었다면 더 이상 진행하지 않음
+    console.log(id, type); // 디버깅을 위해 값 확인
+    try {
+      const response = await postReaction(id, type);
+      console.log(response);
+      setIsClicked(true); // 버튼을 비활성화 상태로 변경
+      if (type === "like") {
+        setLikeColor("#1877F2"); // 좋아요 색상 변경
+        setDislikeColor(`${colors.GRAYSCALE_40}`);
+        setLikeCount((prevState) => prevState + 1);
+      } else if (type === "dislike") {
+        setDislikeColor("#1877F2"); // 싫어요 색상 변경
+        setLikeColor(`${colors.GRAYSCALE_40}`);
+        setDislikeCount((prevState) => prevState + 1);
+      }
+    } catch (error) {
+      console.error("Failed to post reaction: ", error);
+    }
+  };
 
   return (
     <QuestionArea>
@@ -170,13 +199,19 @@ function QuestionListItems({ type, question }) {
         )}
       </QuestionTextArea>
       <QuestionLikeArea>
-        <LikeArea>
+        <LikeArea
+          onClick={() => handleClick(question.id, "like")}
+          disabled={isClicked}
+        >
           <Like />
-          <LikeText>좋아요 {question.like}</LikeText>
+          <LikeText color={likeColor}>좋아요 {likeCount}</LikeText>
         </LikeArea>
-        <LikeArea>
+        <LikeArea
+          onClick={() => handleClick(question.id, "dislike")}
+          disabled={isClicked}
+        >
           <UnLike />
-          <LikeText>싫어요 {question.dislike}</LikeText>
+          <LikeText color={dislikeColor}>싫어요 {dislikeCount}</LikeText>
         </LikeArea>
       </QuestionLikeArea>
     </QuestionArea>
