@@ -7,6 +7,7 @@ import Kebab from "../../assets/icons/ic_more.svg?react";
 import { colors } from "../../styles/colors";
 import getUsers from "../../api/getUsers";
 import { timeSince } from "../../util/TimeSince";
+import KebabDropdown from "./KebabDropdown";
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -103,10 +104,19 @@ const Since = styled.span`
   color: ${colors.GRAYSCALE_40};
   font-size: 0.85rem;
 `;
+const KebabContainer = styled.div`
+  position: relative;
+  cursor: pointer;
+`;
 
 function QuestionListItems({ type, question }) {
   //props 내려서 type에 따라 보이는 컴포넌트 변경(kebab, textarea)
   const [subjectsData, setSubjectsData] = useState([]);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
 
   const fetchSubjects = async () => {
     const users = await getUsers();
@@ -123,7 +133,12 @@ function QuestionListItems({ type, question }) {
         <QuestionClearButton>
           {question.answer ? "답변완료" : "미답변"}
         </QuestionClearButton>
-        {type ? <Kebab /> : null}
+        {type ? (
+          <KebabContainer>
+            <Kebab onClick={toggleDropdown} />
+            {isDropdownVisible ? <KebabDropdown /> : null}
+          </KebabContainer>
+        ) : null}
       </QuestionHeader>
       <QuestionTitleArea>
         <Since>질문 · {timeSince(`${question.createdAt}`)}</Since>
