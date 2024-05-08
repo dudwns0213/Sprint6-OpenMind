@@ -9,6 +9,7 @@ import getUsers from "../../api/getUsers";
 import { timeSince } from "../../util/TimeSince";
 import KebabDropdown from "./KebabDropdown";
 import postReaction from "../../api/postReaction";
+import AnswerContent from "./AnswerContent";
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -177,26 +178,11 @@ function QuestionListItems({ type, question }) {
         <QuestionTitle>{question.content}</QuestionTitle>
       </QuestionTitleArea>
       <QuestionTextArea>
-        {type ? (
-          <TextAreaItem />
-        ) : (
-          question.answer && (
-            <AnswerContainer>
-              <QuestionTitleIcon src={subjectsData.imageSource} />
-              <AnswerArea>
-                <QuestionUserNickNameArea>
-                  <h3>{subjectsData.name}</h3>
-                  <Since>{timeSince(`${question.answer.createdAt}`)}</Since>
-                </QuestionUserNickNameArea>
-                {question.answer.isRejected ? (
-                  <IsReject>답변거절</IsReject>
-                ) : (
-                  <p>{question.answer.content}</p>
-                )}
-              </AnswerArea>
-            </AnswerContainer>
-          )
-        )}
+        <AnswerContent
+          type={type}
+          question={question}
+          subjectsData={subjectsData}
+        />
       </QuestionTextArea>
       <QuestionLikeArea>
         <LikeArea
