@@ -2,6 +2,7 @@ import { useState } from "react";
 import PostButton from "./PostButton.jsx";
 import PostModal from "./PostModal";
 import QuestionListUser from "../../components/UI/QuestionListUser";
+import HeadProfile from "../../components/UI/HeadProfile.jsx";
 
 function Feeds() {
   const [modal, setModal] = useState(false);
@@ -17,6 +18,7 @@ function Feeds() {
   return (
     <>
       {modal ? <PostModal closeModal={closeModal} /> : null}
+      <HeadProfile />
       <QuestionListUser type={false} />
       <PostButton />
       <PostButton onClick={() => showModal()} />

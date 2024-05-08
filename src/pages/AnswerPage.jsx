@@ -15,7 +15,7 @@ const AnswerPage = () => {
       <HeadProfile />
       <DeleteButton />
 
-      <QuestionListUser />
+      <QuestionListUser type={true} />
     </div>
   );
 };

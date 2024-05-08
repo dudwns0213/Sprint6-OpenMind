@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import OpenMindLogo from "../../assets/logo/logo.svg";
 import logo from "../../assets/logo/toplogo.svg?react";
@@ -8,6 +8,7 @@ import SnsKakaoTalk from "../../assets/icons/ic_kakaotalk_color.svg?react";
 import SnsFaceBook from "../../assets/icons/ic_facebook_color.svg?react";
 import ToastMessage from "./ToastMessage";
 import * as func from "../../util/Sns.js";
+import getUsers from "../../api/getUsers.js";
 
 const Container = styled.div`
   width: 100%;
@@ -53,6 +54,7 @@ const SnsArea = styled.div`
 const HeadProfile = ({ name, image }) => {
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false); // 토스트메시지의 가시성
+  const [subjectsData, setSubjectsData] = useState([]); //api 데이터
 
   const Url = window.location.href; // 현재 페이지의 URL을 가져오기
 
@@ -74,14 +76,22 @@ const HeadProfile = ({ name, image }) => {
       setShowToast(false); // 5초후에 토스트 메시지를 숨김
     }, 5000);
   };
+  const fetchSubjects = async () => {
+    //데이터 가져올 함수
+    const users = await getUsers();
+    console.log(users);
+    setSubjectsData(users);
+  };
+  useEffect(() => {
+    fetchSubjects();
+  }, []);
   return (
     <div>
       <Container>
         <Profile>
           <OpenMind src={logo} alt="OpenMind 로고" />
-          <TitleIcon src={SnsFaceBook} />
-          {/* 임시 이미지 지정 */}
-          <NickName>아초는고양이</NickName>
+          <TitleIcon src={subjectsData.imageSource} />
+          <NickName>{subjectsData.name}</NickName>
           <SnsArea>
             <SnsLink
               onClick={handleCopyToClipboard}
