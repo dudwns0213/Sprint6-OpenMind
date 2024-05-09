@@ -42,9 +42,8 @@ const StyledIcon = styled(ArrowIcon)`
   position: absolute;
   top: 14px;
   right: 14px;
+  fill: #542f1a;
 `;
-
-//arrowicon brown_40으로 재다운로드 필요
 
 function QuestionButtonTop() {
   return (

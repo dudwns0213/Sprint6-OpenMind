@@ -5,11 +5,11 @@ import {Link} from "react-router-dom";
 import {colors} from "../../styles/colors";
 import InputForm from "../../components/UI/InputForm";
 import QuestionButtonTop from "../../components/UI/QuestionButtonTop";
-import PersonIcon from "../../assets/icons/ic_person.svg";
-import BackImg from "../../assets/logo/logo.svg";
+import Logoimg from "../../assets/logo/txt_logo.svg?react";
+import BackImg from "../../assets/logo/img_logo.svg?react";
 
 
-const Background = styled.div`
+const BackColor = styled.div`
   background-color: ${colors.GRAYSCALE_20};
   position: fixed;
   top:0;
@@ -21,13 +21,15 @@ const Background = styled.div`
   align-items: center;
 `
 
-const BackgroundImg = styled.img`
+const BackgroundImg = styled(BackImg)`
   position: fixed;
-  z-index: -5;
   bottom: 0;
-  
+  z-index: -5;
   width: 100%;
-  height: auto;
+  height: 100%;
+
+  fill: none;
+
 `
 
 const MainContainer = styled.div`
@@ -38,24 +40,25 @@ const MainContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  
 `
 
-const TitleLogo = styled.img`
+const TitleLogo = styled(Logoimg)`
   width: 456px;
   height: 180px;
 `
-//해당 이미지는 피그마에서 제공해주고 있지 않아 임의로 다른 파일을 사용했습니다.
+
 
 function HomePage() {
   return (
-    <Background>
-      <BackgroundImg src={BackImg}/>
+    <BackColor>
+      <BackgroundImg/>
       <Link to="/list"><QuestionButtonTop/></Link>
       <MainContainer>
-        <TitleLogo src={PersonIcon}/>
+        <TitleLogo/>
         <InputForm/>
       </MainContainer>
-    </Background>
+    </BackColor>
   )
 }
 

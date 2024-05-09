@@ -9,7 +9,7 @@ const RoutesComponent = () => {
     return (
         <Routes>
             <Route exact path="/" component={HomePage}></Route>
-            <Route path="/post/${userId}/answer" component={Answer}></Route>
+            <Route path="/post/:userId/answer" component={Answer}></Route>
             <Route path="/list" component={UserList}></Route>
         </Routes>       
     )

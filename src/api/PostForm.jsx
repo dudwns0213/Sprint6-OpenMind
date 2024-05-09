@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {colors} from "../styles/colors";
+import { colors } from "../styles/colors";
 import { Link } from "react-router-dom";
 
 const Input = styled.input`
@@ -36,65 +36,66 @@ const InputContainer = styled.div`
   justify-content: space-between;
 `
 
-
-
-
-
 const PostForm = () => {
+  const [userName, setUserName] = useState('');
+  const [userId, setUserId] = useState(null); // userId 상태 추가
 
-const [userName,setUserName] = useState('');
-
-const handleInput = (event) => {
-  setUserName(event.target.value);
+  const handleInput = (event) => {
+    setUserName(event.target.value);
   };
 
-const handleSubmit = () => {
-  fetch('https://openmind-api.vercel.app/6-7/subjects/',{
+  const handleSubmit = () => {
+    fetch('https://openmind-api.vercel.app/6-7/subjects/', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
-      }).then(response => response.json())
-      .then(jsonObject => {
-        console.log(jsonObject);
-        const nameArray = jsonObject.results.map(item => item.name)
-        if(nameArray.includes(userName)) {
-          const nameIndex = nameArray.findIndex(userName);
-          const nameObject = jsonObject.results[nameIndex];
-          const userId = nameObject.id
-          return userId;
-        }else{
-          fetch('https://openmind-api.vercel.app/6-7/subjects/',{
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: {
-              username: userName,
-              team: "6-7"
-            }
-          }).then(response => response.json())
-          .then(jsonResponse => {
-            console.log(jsonResponse);
-            const userId = jsonResponse.id
-            return userId;
-          }).catch(error => {
-            console.error('Error:',error)
+    })
+    .then(response => response.json())
+    .then(jsonObject => {
+      console.log(jsonObject);
+      const nameArray = jsonObject.results.map(item => item.name);
+      if(nameArray.includes(userName)) {
+        const nameIndex = nameArray.findIndex(name => name === userName);
+        const nameObject = jsonObject.results[nameIndex];
+        const userId = nameObject.id;
+        setUserId(userId); 
+      } else {
+        return fetch('https://openmind-api.vercel.app/6-7/subjects/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: String(userName),
+            team: "6-7"
           })
-        }
-      }).catch(error => {
-      console.error('Error:',error)
-      })
-}
-return(
-  <InputContainer>
-    <Input placeholder='이름을 입력하세요' type='text' value={userName} onChange={handleInput}/>
-    <Link to='/post/${userId}/answer'><QuestionButton onClick={handleSubmit}>질문 받기</QuestionButton></Link>
-  </InputContainer>
-)
+        });
+      }
+    })
+    .then(response => {
+      if(response && response.ok) {
+        return response.json();
+      } 
+    })
+    .then(jsonResponse => {
+      if(jsonResponse) {
+        console.log(jsonResponse);
+        const userId = jsonResponse.id;
+        setUserId(userId); 
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
 
-}
-
-
+  return (
+    <InputContainer>
+      <Input placeholder='이름을 입력하세요' type='text' value={userName} onChange={handleInput}/>
+      <Link to={userId ? `/post/${userId}/answer` : '/'}><QuestionButton onClick={handleSubmit}>질문 받기</QuestionButton></Link>
+    </InputContainer>
+  );
+};
 
 export default PostForm;

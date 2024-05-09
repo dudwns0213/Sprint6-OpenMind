@@ -1,15 +1,13 @@
 import React from "react";
-import styled from "styled-components";
-
-const Background = styled.p`
-background-color: #ffffff
-`
+import NoQuestion from "../../components/UI/NoQuestion.jsx"
+import { useParams } from 'react-router-dom';
 
 
 const Answer = () => {
+    const { userId } = useParams();
+    
     return (
-        <Background>1</Background>
-  
+        <NoQuestion/>
     )
 }
 
