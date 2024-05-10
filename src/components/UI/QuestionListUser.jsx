@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import QuestionIcon from "../../assets/icons/ic_messages.svg?react";
 import QuestionListItems from "./QuestionListItems";
 import getQuestions from "../../api/api.js";
+import DeleteButton from "./DeleteButton.jsx";
+import deleteQuestion from "../../api/deleteQuestions.js";
 
 const QuestionBox = styled.div`
   background-color: #f5f1ee;
@@ -37,20 +39,44 @@ function QuestionListUser({ type }) {
     fetchQuestions({ limit, offset });
   }, [limit, offset]);
 
+  const handleDeleteAllQuestions = async () => {
+    console.log("질문삭제");
+    try {
+      // 질문 데이터가 없으면 삭제를 수행하지 않음
+      if (questionsData.results.length === 0) {
+        console.log("삭제할 질문이 없습니다.");
+        return;
+      }
+      // 모든 질문 삭제 요청을 동시에 보내고, 모든 요청이 완료될 때까지 기다림
+      await Promise.all(
+        questionsData.results.map(async (question) => {
+          const data = await deleteQuestion(question.id);
+          setQuestionsData(data);
+          console.log(`질문 삭제: ${question.id}`);
+        })
+      );
+    } catch (error) {
+      console.error("질문 삭제 실패", error);
+    }
+  };
+
   return (
-    <QuestionBox>
-      <QuestionBrownText>
-        <QuestionIcon />
-        <span>{questionsData.count}개의 질문이 있습니다</span>
-      </QuestionBrownText>
-      {questionsData.results?.map((question) => (
-        <QuestionListItems
-          question={question}
-          key={`${question.id}`}
-          type={type}
-        />
-      ))}
-    </QuestionBox>
+    <>
+      {type ? <DeleteButton onDelete={handleDeleteAllQuestions} /> : null}
+      <QuestionBox>
+        <QuestionBrownText>
+          <QuestionIcon />
+          <span>{questionsData?.count || 0}개의 질문이 있습니다</span>
+        </QuestionBrownText>
+        {questionsData?.results?.map((question) => (
+          <QuestionListItems
+            question={question}
+            key={`${question.id}`}
+            type={type}
+          />
+        ))}
+      </QuestionBox>
+    </>
   );
 }
 

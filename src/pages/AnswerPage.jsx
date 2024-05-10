@@ -5,7 +5,6 @@ import QuestionListItems from "../components/UI/QuestionListItems";
 import Feeds from "./post/Feeds";
 import TextAreaItem from "../components/UI/TextAreaItem";
 import HeadProfile from "../components/UI/HeadProfile";
-import DeleteButton from "../components/UI/DeleteButton";
 
 const AnswerPage = () => {
   return (
@@ -13,7 +12,6 @@ const AnswerPage = () => {
       <GlobalStyle />
 
       <HeadProfile />
-      <DeleteButton />
 
       <QuestionListUser type={true} />
     </div>

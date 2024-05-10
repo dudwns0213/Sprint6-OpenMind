@@ -27,11 +27,11 @@ const ButtonDelete = styled.button`
   align-items: center; //글씨를 세로 기준으로 중앙에 오도록
 `;
 
-const DeleteButton = () => {
+const DeleteButton = ({ onDelete }) => {
   return (
     <Container>
       <span></span>
-      <ButtonDelete>삭제하기</ButtonDelete>
+      <ButtonDelete onClick={onDelete}>삭제하기</ButtonDelete>
     </Container>
   );
 };
