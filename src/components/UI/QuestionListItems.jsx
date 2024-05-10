@@ -61,20 +61,6 @@ const QuestionTextArea = styled.div`
   display: flex;
   gap: 12px;
 `;
-const QuestionTitleIcon = styled(TitleIcon)`
-  width: 48px;
-  height: 48px;
-`;
-const AnswerArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-const QuestionUserNickNameArea = styled.div`
-  display: flex;
-  gap: 8px;
-  align-items: center;
-`;
 const QuestionLikeArea = styled.div`
   display: flex;
   gap: 32px;
@@ -104,10 +90,7 @@ const QuestionHeader = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const AnswerContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
+
 const Since = styled.span`
   color: ${colors.GRAYSCALE_40};
   font-size: 0.85rem;
@@ -116,11 +99,8 @@ const KebabContainer = styled.div`
   position: relative;
   cursor: pointer;
 `;
-const IsReject = styled.p`
-  color: #b93333;
-`;
 
-function QuestionListItems({ type, question }) {
+function QuestionListItems({ type, question, isAnswered }) {
   //props 내려서 type에 따라 보이는 컴포넌트 변경(kebab, textarea)
   const [subjectsData, setSubjectsData] = useState([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -181,11 +161,6 @@ function QuestionListItems({ type, question }) {
         <QuestionTitle>{question.content}</QuestionTitle>
       </QuestionTitleArea>
       <QuestionTextArea>
-        {/* <AnswerContent
-          type={type}
-          question={question}
-          subjectsData={subjectsData}
-        /> */}
         <RenderBy type={type} question={question} subjectsData={subjectsData} />
       </QuestionTextArea>
       <QuestionLikeArea>

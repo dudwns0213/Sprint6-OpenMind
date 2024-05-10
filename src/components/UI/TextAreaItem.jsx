@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import createAnswers from "../../api/createAnswers";
-import { useEffect } from "react";
-import AnswerContent from "./AnswerContent";
+import UpdatedAnswer from "./UpdatedAnswer";
 
 const TextArea = styled.textarea`
   padding: 16px;
@@ -76,7 +75,8 @@ function TextAreaItem({ question, subjectsData }) {
       });
 
       const data = await createAnswers(formData);
-      setAnswerData(data.content); // 성공적으로 답변을 생성하면 answerData 상태를 업데이트
+      setAnswerData(data); // 성공적으로 답변을 생성하면 answerData 상태를 업데이트
+      console.log(data);
     } catch (error) {
       setSubmittingError(error); // 에러가 발생하면 submittingError 상태를 업데이트하여 사용자에게 피드백 제공
     } finally {
@@ -86,7 +86,9 @@ function TextAreaItem({ question, subjectsData }) {
 
   return (
     <>
-      {answerData ? null : ( // <AnswerContent question={question} subjectsData={subjectsData} />
+      {answerData ? (
+        <UpdatedAnswer answerData={answerData} subjectsData={subjectsData} />
+      ) : (
         <form onSubmit={handleSubmit}>
           <TextArea
             value={content}

@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AnswerContent from "./AnswerContent";
 import TextAreaItem from "./TextAreaItem";
 
 export default function RenderBy({ type, question, subjectsData }) {
+  const [answer, setAnswer] = useState(question);
+  useEffect(() => {
+    console.log(`changed!`);
+  }, [answer]);
   if (type) {
     // 답변 페이지일 때
     return question.answer ? (
-      <AnswerContent question={question} subjectsData={subjectsData} />
+      <AnswerContent
+        question={question}
+        subjectsData={subjectsData}
+        answer={answer}
+      />
     ) : (
       <TextAreaItem question={question} subjectsData={subjectsData} />
     );

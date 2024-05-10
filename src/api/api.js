@@ -8,7 +8,7 @@ export async function getQuestions(params = {}) {
 
   try {
     const response = await fetch(
-      `${OPENMIND_API}${SUBJECTS}/5819/${QUESTIONS}/?${query}/`
+      `${OPENMIND_API}${SUBJECTS}/6047/${QUESTIONS}/?${query}/`
     );
 
     if (!response.ok) {

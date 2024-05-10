@@ -95,7 +95,6 @@ const HeadProfile = ({ name, image }) => {
       setShowToast(false); // 5초후에 토스트 메시지를 숨김
     }, 5000);
   };
-
   const fetchSubjects = async () => {
     //데이터 가져올 함수
     const users = await getUsers();
@@ -105,7 +104,6 @@ const HeadProfile = ({ name, image }) => {
   useEffect(() => {
     fetchSubjects();
   }, []);
-
   return (
     <div>
       <Container>

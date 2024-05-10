@@ -1,7 +1,7 @@
 export async function createAnswers(formData) {
   try {
     const response = await fetch(
-      `https://openmind-api.vercel.app/6-7/questions/10295/answers/`,
+      `https://openmind-api.vercel.app/6-7/questions/10161/answers/`,
       {
         method: "POST",
         headers: {
