@@ -22,9 +22,17 @@ const QuestionBrownText = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 20px; //
   gap: 8px;
-`;
 
+  @media (max-width: 576px) {
+    //몇개의 질문이 있습니다 반응형
+    font-size: 18px;
+  }
+`;
+const StyledDiv = styled.div`
+  padding: 16px; //여백 추가
+`;
 function QuestionListUser({ type }) {
   const [questionsData, setQuestionsData] = useState([]);
   const [limit, setLimit] = useState(8);
@@ -61,7 +69,7 @@ function QuestionListUser({ type }) {
   };
 
   return (
-    <>
+    <StyledDiv>
       {type ? <DeleteButton onDelete={handleDeleteAllQuestions} /> : null}
       <QuestionBox>
         <QuestionBrownText>
@@ -76,7 +84,7 @@ function QuestionListUser({ type }) {
           />
         ))}
       </QuestionBox>
-    </>
+    </StyledDiv>
   );
 }
 

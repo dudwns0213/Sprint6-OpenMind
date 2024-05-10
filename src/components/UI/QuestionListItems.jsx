@@ -52,6 +52,10 @@ const QuestionTitleArea = styled.div`
 const QuestionTitle = styled.h2`
   font-size: 18px;
   margin: 0;
+  @media (max-width: 576px) {
+    //질문 내용 반응형
+    font-size: 16px;
+  }
 `;
 const QuestionTextArea = styled.div`
   display: flex;

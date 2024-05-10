@@ -25,6 +25,13 @@ const ButtonDelete = styled.button`
 
   display: flex;
   align-items: center; //글씨를 세로 기준으로 중앙에 오도록
+  @media (max-width: 576px) {
+    //삭제버튼 반응형
+    width: 70px;
+    height: 25px;
+    font-size: 10px;
+    padding: 12px 18px;
+  }
 `;
 
 const DeleteButton = ({ onDelete }) => {

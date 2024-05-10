@@ -17,6 +17,10 @@ const Container = styled.div`
   background-image: url("${OpenMindLogo}"); //임시 이미지 지정
   background-repeat: no-repeat;
   background-position: top center;
+  @media (max-width: 576px) {
+    //헤더 배경화면 반응형
+    background-size: 906px;
+  }
 `;
 
 const Profile = styled.div`
@@ -32,6 +36,11 @@ const OpenMind = styled(logo)`
   cursor: pointer;
   width: 170px;
   height: 67px;
+  @media (max-width: 576px) {
+    //오픈마인드 로고 반응형
+    width: 124px;
+    height: 49px;
+  }
 `;
 
 const TitleIcon = styled.img`
@@ -42,9 +51,16 @@ const TitleIcon = styled.img`
   border: 1px solid black;
   background-color: skyblue;
   border: none;
+  @media (max-width: 576px) {
+    max-width: 104px;
+    height: 104px; //프로필 사진 반응형
+  }
 `;
 const NickName = styled.span`
   font-size: 32px;
+  @media (max-width: 576px) {
+    font-size: 24px; //닉네임 폰트 반응형
+  }
 `;
 const SnsArea = styled.div`
   display: flex;

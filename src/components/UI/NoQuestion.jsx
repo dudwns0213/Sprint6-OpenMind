@@ -22,6 +22,10 @@ const ImageBox = styled.div`
     img {
       margin-right: 5px;
     }
+    @media (max-width: 576px) {
+      //아직 질문이 없습니다 반응형
+      font-size: 18px;
+    }
   }
 `;
 
