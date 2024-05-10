@@ -4,7 +4,7 @@ import { colors } from "../../styles/colors";
 
 const Container = styled.div`
   max-width: 684px;
-  height: 50px;
+  height: 40px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -25,13 +25,20 @@ const ButtonDelete = styled.button`
 
   display: flex;
   align-items: center; //글씨를 세로 기준으로 중앙에 오도록
+  @media (max-width: 576px) {
+    //삭제버튼 반응형
+    width: 70px;
+    height: 25px;
+    font-size: 10px;
+    padding: 12px 18px;
+  }
 `;
 
-const DeleteButton = () => {
+const DeleteButton = ({ onDelete }) => {
   return (
     <Container>
       <span></span>
-      <ButtonDelete>삭제하기</ButtonDelete>
+      <ButtonDelete onClick={onDelete}>삭제하기</ButtonDelete>
     </Container>
   );
 };

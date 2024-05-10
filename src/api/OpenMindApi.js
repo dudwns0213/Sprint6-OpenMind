@@ -22,4 +22,24 @@ export async function getQuestions(params = {}) {
   }
 }
 
-export default getQuestions;
+export async function patchAnswers(answerbody) {
+  try {
+    const response = await fetch(`${OPENMIND_API}${ANSWERS}/4446/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(answerbody),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const body = await response.json();
+    return body;
+  } catch (error) {
+    console.error("Failed to post question:", error);
+    throw error;
+  }
+}

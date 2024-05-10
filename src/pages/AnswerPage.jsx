@@ -13,9 +13,8 @@ const AnswerPage = () => {
       <GlobalStyle />
 
       <HeadProfile />
-      <DeleteButton />
 
-      <QuestionListUser />
+      <QuestionListUser type={true} />
     </div>
   );
 };

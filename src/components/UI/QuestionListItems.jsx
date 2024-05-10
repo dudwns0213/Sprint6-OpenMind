@@ -6,6 +6,11 @@ import TextAreaItem from "../UI/TextAreaItem";
 import Kebab from "../../assets/icons/ic_more.svg?react";
 import { colors } from "../../styles/colors";
 import getUsers from "../../api/getUsers";
+import { timeSince } from "../../util/TimeSince";
+import KebabDropdown from "./KebabDropdown";
+import postReaction from "../../api/postReaction";
+import AnswerContent from "./AnswerContent";
+import RenderBy from "./RenderBy";
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -47,6 +52,10 @@ const QuestionTitleArea = styled.div`
 const QuestionTitle = styled.h2`
   font-size: 18px;
   margin: 0;
+  @media (max-width: 576px) {
+    //질문 내용 반응형
+    font-size: 16px;
+  }
 `;
 const QuestionTextArea = styled.div`
   display: flex;
@@ -89,6 +98,7 @@ const UnLikeIcon = styled(LikeIcon)`
 `;
 const LikeText = styled.span`
   font-size: 14px;
+  color: ${(props) => props.color || "black"};
 `;
 const QuestionHeader = styled.div`
   display: flex;
@@ -102,87 +112,96 @@ const Since = styled.span`
   color: ${colors.GRAYSCALE_40};
   font-size: 0.85rem;
 `;
+const KebabContainer = styled.div`
+  position: relative;
+  cursor: pointer;
+`;
+const IsReject = styled.p`
+  color: #b93333;
+`;
 
 function QuestionListItems({ type, question }) {
   //props 내려서 type에 따라 보이는 컴포넌트 변경(kebab, textarea)
   const [subjectsData, setSubjectsData] = useState([]);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [likeColor, setLikeColor] = useState("black");
+  const [dislikeColor, setDislikeColor] = useState("black");
+  const [likeCount, setLikeCount] = useState(question.like);
+  const [dislikeCount, setDislikeCount] = useState(question.dislike);
+
+  const toggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
 
   const fetchSubjects = async () => {
     const users = await getUsers();
-    console.log(users);
+    // console.log(users);
     setSubjectsData(users);
   };
+
   useEffect(() => {
     fetchSubjects();
   }, []);
 
-  function timeSince(dateString) {
-    //질문, 답변 시간 계산 함수
-    const date = new Date(dateString);
-    const seconds = Math.floor((new Date() - date) / 1000);
+  const handleClick = async (id, type) => {
+    if (isClicked) return; // 이미 클릭되었다면 더 이상 진행하지 않음
+    try {
+      const response = await postReaction(id, type);
+      setIsClicked(true); // 버튼을 비활성화 상태로 변경
+      if (type === "like") {
+        setLikeColor("#1877F2"); // 좋아요 색상 변경
+        setDislikeColor(`${colors.GRAYSCALE_40}`);
+        setLikeCount((prevState) => prevState + 1);
+      } else if (type === "dislike") {
+        setDislikeColor("#1877F2"); // 싫어요 색상 변경
+        setLikeColor(`${colors.GRAYSCALE_40}`);
+        setDislikeCount((prevState) => prevState + 1);
+      }
+    } catch (error) {
+      console.error("Failed to post reaction: ", error);
+    }
+  };
 
-    let interval = seconds / 31536000;
-
-    if (interval > 1) {
-      return Math.floor(interval) + "년전";
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-      return Math.floor(interval) + "개월전";
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-      return Math.floor(interval) + "일전";
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-      return Math.floor(interval) + "시간전";
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-      return Math.floor(interval) + "분전";
-    }
-    return Math.floor(seconds) + "초전";
-  }
   return (
     <QuestionArea>
       <QuestionHeader>
         <QuestionClearButton>
           {question.answer ? "답변완료" : "미답변"}
         </QuestionClearButton>
-        {type ? <Kebab /> : null}
+        {type ? (
+          <KebabContainer>
+            <Kebab onClick={toggleDropdown} />
+            {isDropdownVisible ? <KebabDropdown /> : null}
+          </KebabContainer>
+        ) : null}
       </QuestionHeader>
       <QuestionTitleArea>
         <Since>질문 · {timeSince(`${question.createdAt}`)}</Since>
         <QuestionTitle>{question.content}</QuestionTitle>
       </QuestionTitleArea>
       <QuestionTextArea>
-        {type ? (
-          <TextAreaItem />
-        ) : (
-          question.answer && (
-            <AnswerContainer>
-              <QuestionTitleIcon src={subjectsData.imageSource} />
-              <AnswerArea>
-                <QuestionUserNickNameArea>
-                  <h3>{subjectsData.name}</h3>
-                  <Since>{timeSince(`${question.answer.createdAt}`)}</Since>
-                </QuestionUserNickNameArea>
-                <p>{question.answer.content}</p>
-                <p>{question.answer.isRejected ? "답변거절" : null}</p>
-              </AnswerArea>
-            </AnswerContainer>
-          )
-        )}
+        {/* <AnswerContent
+          type={type}
+          question={question}
+          subjectsData={subjectsData}
+        /> */}
+        <RenderBy type={type} question={question} subjectsData={subjectsData} />
       </QuestionTextArea>
       <QuestionLikeArea>
-        <LikeArea>
+        <LikeArea
+          onClick={() => handleClick(question.id, "like")}
+          disabled={isClicked}
+        >
           <Like />
-          <LikeText>좋아요 {question.like}</LikeText>
+          <LikeText color={likeColor}>좋아요 {likeCount}</LikeText>
         </LikeArea>
-        <LikeArea>
+        <LikeArea
+          onClick={() => handleClick(question.id, "dislike")}
+          disabled={isClicked}
+        >
           <UnLike />
-          <LikeText>싫어요 {question.dislike}</LikeText>
+          <LikeText color={dislikeColor}>싫어요 {dislikeCount}</LikeText>
         </LikeArea>
       </QuestionLikeArea>
     </QuestionArea>
