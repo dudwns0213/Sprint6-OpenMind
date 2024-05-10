@@ -20,7 +20,6 @@ function Feeds() {
       {modal ? <PostModal closeModal={closeModal} /> : null}
       <HeadProfile />
       <QuestionListUser type={false} />
-      <PostButton />
       <PostButton onClick={() => showModal()} />
     </>
   );

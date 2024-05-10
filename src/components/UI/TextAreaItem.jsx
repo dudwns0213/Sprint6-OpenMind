@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { useState } from "react";
+import createAnswers from "../../api/createAnswers";
+import UpdatedAnswer from "./UpdatedAnswer";
 
 const TextArea = styled.textarea`
   padding: 16px;
@@ -44,12 +47,65 @@ const CompleteButton = styled.button`
   }
 `;
 
-function TextAreaItem({ id, placeholder }) {
+function TextAreaItem({ question, subjectsData }) {
+  const [content, setContent] = useState("");
+  //const [questionId, SetquestionId] = useState(9959);
+  const [isRejected, setisRejected] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittingError, setSubmittingError] = useState(null);
+  const [answerData, setAnswerData] = useState(question.answer); //답변 추가하면 보관됨
+  const [input, setInput] = useState(false);
+
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+  };
+
+  const handleInputChange = () => {
+    setInput(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true); // 제출 시작 시 isSubmitting을 true로 설정
+
+    try {
+      const formData = JSON.stringify({
+        content: `${content}`,
+        isRejected: `${isRejected}`,
+      });
+
+      const data = await createAnswers(formData);
+      setAnswerData(data); // 성공적으로 답변을 생성하면 answerData 상태를 업데이트
+      console.log(data);
+    } catch (error) {
+      setSubmittingError(error); // 에러가 발생하면 submittingError 상태를 업데이트하여 사용자에게 피드백 제공
+    } finally {
+      setIsSubmitting(false); // 작업 완료 후 isSubmitting을 false로 설정
+    }
+  };
+
   return (
-    <div>
-      <TextArea id={id} placeholder={placeholder} />
-      <CompleteButton>답변 완료</CompleteButton>
-    </div>
+    <>
+      {answerData ? (
+        <UpdatedAnswer answerData={answerData} subjectsData={subjectsData} />
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <TextArea
+            value={content}
+            placeholder="답변을 입력해주세요"
+            onChange={handleContentChange}
+          />
+          <CompleteButton
+            type="submit"
+            disabled={isSubmitting}
+            onClick={handleInputChange}
+          >
+            답변 완료
+          </CompleteButton>
+          {submittingError && <div>{submittingError.message}</div>}
+        </form>
+      )}
+    </>
   );
 }
 

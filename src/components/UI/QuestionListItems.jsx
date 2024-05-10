@@ -10,6 +10,7 @@ import { timeSince } from "../../util/TimeSince";
 import KebabDropdown from "./KebabDropdown";
 import postReaction from "../../api/postReaction";
 import AnswerContent from "./AnswerContent";
+import RenderBy from "./RenderBy";
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -56,20 +57,6 @@ const QuestionTextArea = styled.div`
   display: flex;
   gap: 12px;
 `;
-const QuestionTitleIcon = styled(TitleIcon)`
-  width: 48px;
-  height: 48px;
-`;
-const AnswerArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-const QuestionUserNickNameArea = styled.div`
-  display: flex;
-  gap: 8px;
-  align-items: center;
-`;
 const QuestionLikeArea = styled.div`
   display: flex;
   gap: 32px;
@@ -99,10 +86,7 @@ const QuestionHeader = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const AnswerContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
+
 const Since = styled.span`
   color: ${colors.GRAYSCALE_40};
   font-size: 0.85rem;
@@ -111,11 +95,8 @@ const KebabContainer = styled.div`
   position: relative;
   cursor: pointer;
 `;
-const IsReject = styled.p`
-  color: #b93333;
-`;
 
-function QuestionListItems({ type, question }) {
+function QuestionListItems({ type, question, isAnswered }) {
   //props 내려서 type에 따라 보이는 컴포넌트 변경(kebab, textarea)
   const [subjectsData, setSubjectsData] = useState([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -141,10 +122,8 @@ function QuestionListItems({ type, question }) {
 
   const handleClick = async (id, type) => {
     if (isClicked) return; // 이미 클릭되었다면 더 이상 진행하지 않음
-    console.log(id, type); // 디버깅을 위해 값 확인
     try {
       const response = await postReaction(id, type);
-      console.log(response);
       setIsClicked(true); // 버튼을 비활성화 상태로 변경
       if (type === "like") {
         setLikeColor("#1877F2"); // 좋아요 색상 변경
@@ -178,11 +157,7 @@ function QuestionListItems({ type, question }) {
         <QuestionTitle>{question.content}</QuestionTitle>
       </QuestionTitleArea>
       <QuestionTextArea>
-        <AnswerContent
-          type={type}
-          question={question}
-          subjectsData={subjectsData}
-        />
+        <RenderBy type={type} question={question} subjectsData={subjectsData} />
       </QuestionTextArea>
       <QuestionLikeArea>
         <LikeArea

@@ -13,7 +13,7 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.56);
-  z-index: 0;
+  z-index: 2;
 `;
 
 const PostModalPage = styled.div`
@@ -29,7 +29,7 @@ const PostModalPage = styled.div`
   box-shadow: 0px 16px 20px rgba(48, 48, 48, 0.62);
   background-color: ${colors.GRAYSCALE_10};
   padding: 40px 40px 104px;
-  z-index: 2;
+  z-index: 3;
 `;
 
 const ModalPageContainer = styled.div`

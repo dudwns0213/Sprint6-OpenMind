@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
 import { timeSince } from "../../util/TimeSince";
-import { useEffect, useState } from "react";
 
 const AnswerArea = styled.div`
   display: flex;
@@ -39,19 +38,19 @@ const QuestionUserNickNameArea = styled.div`
   align-items: center;
 `;
 
-export default function AnswerContent({ question, subjectsData }) {
+export default function UpdatedAnswer({ answerData, subjectsData }) {
   return (
     <AnswerContainer>
       <QuestionTitleIcon src={subjectsData.imageSource} />
       <AnswerArea>
         <QuestionUserNickNameArea>
           <h3>{subjectsData.name}</h3>
-          <Since>{timeSince(`${question.answer.createdAt}`)}</Since>
+          <Since>{timeSince(`${answerData.createdAt}`)}</Since>
         </QuestionUserNickNameArea>
-        {question.answer.isRejected ? (
+        {answerData.isRejected ? (
           <IsReject>답변거절</IsReject>
         ) : (
-          <p>{question.answer.content}</p>
+          <p>{answerData.content}</p>
         )}
       </AnswerArea>
     </AnswerContainer>

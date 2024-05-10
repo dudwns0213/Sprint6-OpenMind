@@ -4,7 +4,7 @@ export async function getUsers(params = {}) {
   const query = new URLSearchParams(params).toString();
 
   try {
-    const response = await fetch(`${OPENMIND_API}${SUBJECTS}/5819/?${query}/`);
+    const response = await fetch(`${OPENMIND_API}${SUBJECTS}/6047/?${query}/`);
 
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);

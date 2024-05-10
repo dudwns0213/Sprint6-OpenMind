@@ -89,7 +89,7 @@ const HeadProfile = ({ name, image }) => {
     <div>
       <Container>
         <Profile>
-          <OpenMind src={logo} alt="OpenMind 로고" />
+          <OpenMind />
           <TitleIcon src={subjectsData.imageSource} />
           <NickName>{subjectsData.name}</NickName>
           <SnsArea>
