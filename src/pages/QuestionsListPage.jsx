@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import getQuestions from "../api/OpenMindApi";
+import { getQuestions } from "../api/OpenMindApi";
 import QuestionsCard from "./QuestionsCard";
 
 function QuestionsListPage() {
