@@ -6,6 +6,7 @@ import SnsKakaoTalk from "../../assets/icons/ic_kakaotalk_color.svg?react";
 import SnsFaceBook from "../../assets/icons/ic_facebook_color.svg?react";
 import QuestIcon from "../../assets/icons/ic_messages.svg?react";
 import QuestionListItems from "./QuestionListItems";
+import ProfilePicture from "../../assets/icons/arrow_down.svg";
 /* svrg 사용 */
 
 const Container = styled.div`
@@ -34,7 +35,6 @@ const TitleIcon = styled.img`
   max-width: 136px;
   height: 136px;
   border-radius: 200px;
-  border: 1px solid black;
   background-color: skyblue;
   border: none;
 `;
@@ -94,11 +94,11 @@ function QuestionListUser() {
     <Container>
       <Profile>
         <OpenMind src={OpenMindLogo} alt={OpenMindLogo} />
-        <TitleIcon src={SnsFaceBook} />
+        <TitleIcon src={ProfilePicture} />
         {/* 임시 이미지 지정 */}
         <NickName>아초는고양이</NickName>
         <SnsArea>
-          <SnsLink />
+          <SnsLink /> 
           <SnsKakaoTalk />
           <SnsFaceBook />
         </SnsArea>
