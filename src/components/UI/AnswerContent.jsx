@@ -33,11 +33,20 @@ const TitleIcon = styled.img`
 const QuestionTitleIcon = styled(TitleIcon)`
   width: 48px;
   height: 48px;
+  @media (max-width: 576px) {
+    //사용자 프로필 반응형
+    width: 32px;
+    height: 32px;
+  }
 `;
 const QuestionUserNickNameArea = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+  @media (max-width: 576px) {
+    //사용자 프로필 반응형
+    font-size: 14px;
+  }
 `;
 
 export default function AnswerContent({ question, subjectsData }) {

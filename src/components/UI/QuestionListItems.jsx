@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import Like from "../../assets/icons/ic_thumbs_up.svg?react";
+import LikeFocus from "../../assets/icons/ic_thumbs_up_focus.svg?react";
 import UnLike from "../../assets/icons/ic_thumbs_down.svg?react";
-import TextAreaItem from "../UI/TextAreaItem";
+import UnLikeFocus from "../../assets/icons/ic_thumbs_down_focus.svg?react";
 import Kebab from "../../assets/icons/ic_more.svg?react";
 import { colors } from "../../styles/colors";
 import getUsers from "../../api/getUsers";
 import { timeSince } from "../../util/TimeSince";
 import KebabDropdown from "./KebabDropdown";
 import postReaction from "../../api/postReaction";
-import AnswerContent from "./AnswerContent";
 import RenderBy from "./RenderBy";
 
 const TitleIcon = styled.img`
@@ -84,7 +84,7 @@ const UnLikeIcon = styled(LikeIcon)`
 `;
 const LikeText = styled.span`
   font-size: 14px;
-  color: ${(props) => props.color || "black"};
+  color: ${(props) => props.color || colors.GRAYSCALE_40};
 `;
 const QuestionHeader = styled.div`
   display: flex;
@@ -105,10 +105,12 @@ function QuestionListItems({ type, question, isAnswered }) {
   const [subjectsData, setSubjectsData] = useState([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [likeColor, setLikeColor] = useState("black");
-  const [dislikeColor, setDislikeColor] = useState("black");
+  const [likeColor, setLikeColor] = useState(`${colors.GRAYSCALE_40}`);
+  const [dislikeColor, setDislikeColor] = useState(`${colors.GRAYSCALE_40}`);
   const [likeCount, setLikeCount] = useState(question.like);
   const [dislikeCount, setDislikeCount] = useState(question.dislike);
+  const [likeChanged, setLikeChanged] = useState(false);
+  const [disLikeChanged, setDislikeChanged] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
@@ -131,11 +133,9 @@ function QuestionListItems({ type, question, isAnswered }) {
       setIsClicked(true); // 버튼을 비활성화 상태로 변경
       if (type === "like") {
         setLikeColor("#1877F2"); // 좋아요 색상 변경
-        setDislikeColor(`${colors.GRAYSCALE_40}`);
         setLikeCount((prevState) => prevState + 1);
       } else if (type === "dislike") {
-        setDislikeColor("#1877F2"); // 싫어요 색상 변경
-        setLikeColor(`${colors.GRAYSCALE_40}`);
+        setDislikeColor("black"); // 싫어요 색상 변경
         setDislikeCount((prevState) => prevState + 1);
       }
     } catch (error) {
@@ -165,17 +165,21 @@ function QuestionListItems({ type, question, isAnswered }) {
       </QuestionTextArea>
       <QuestionLikeArea>
         <LikeArea
-          onClick={() => handleClick(question.id, "like")}
+          onClick={() => {
+            handleClick(question.id, "like"), setLikeChanged(true);
+          }}
           disabled={isClicked}
         >
-          <Like />
+          {likeChanged ? <LikeFocus /> : <Like />}
           <LikeText color={likeColor}>좋아요 {likeCount}</LikeText>
         </LikeArea>
         <LikeArea
-          onClick={() => handleClick(question.id, "dislike")}
+          onClick={() => {
+            handleClick(question.id, "dislike"), setDislikeChanged(true);
+          }}
           disabled={isClicked}
         >
-          <UnLike />
+          {disLikeChanged ? <UnLikeFocus /> : <UnLike />}
           <LikeText color={dislikeColor}>싫어요 {dislikeCount}</LikeText>
         </LikeArea>
       </QuestionLikeArea>
