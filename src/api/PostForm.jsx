@@ -15,6 +15,10 @@ const Input = styled.input`
   &:focus {
     border: solid 1px ${colors.BROWN_40};
   }  
+
+  @media (max-width: 767px) {
+    width: 257px;
+  }
 `
 
 const QuestionButton = styled.button`
@@ -29,6 +33,10 @@ const QuestionButton = styled.button`
 
   &:hover {
     border: solid 2px ${colors.BROWN_50}
+  }
+
+  @media (max-width: 767px) {
+    width: 257px;
   }
 `
 
