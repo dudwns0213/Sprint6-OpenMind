@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage.jsx";
 import AnswerPage from "./pages/AnswerPage.jsx";
 import Feeds from "./pages/post/Feeds";
 import AnswersPatchPage from "./pages/AnswersPatchPage.jsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
