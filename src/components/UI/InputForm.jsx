@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import PersonIcon from "../../assets/icons/ic_person.svg";
 import PostForm from "../../api/PostForm";
-import PersonIcon from "../../assets/icons/ic_person.svg"
+
 
 const StyledDiv = styled.div`
   width: 400px;
@@ -32,8 +33,6 @@ const StyledIcon = styled.img`
   width: 20px;
   height: 20px;
 `
-
-
 
 const InputForm = () => (
   <StyledDiv>

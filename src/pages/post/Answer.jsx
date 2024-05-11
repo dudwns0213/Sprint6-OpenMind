@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 
 
 const Answer = () => {
-    const { userId } = useParams();
-    
+    const { id } = useParams();
+    console.log(id)
     return (
         <NoQuestion/>
     )
