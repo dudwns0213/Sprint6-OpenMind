@@ -1,27 +1,46 @@
 .sortButtonWrapper {
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .sortDropdownTriggerButton {
   width: 80px;
   height: 34px;
   background-color: #ffffff;
-  border: 1px solid #000000;
+  border: 1px solid #818181;
   border-radius: 8px;
   padding: 8px 6px 8px 8px;
   display: flex;
   justify-content: space-between;
   text-align: center;
   align-items: center;
+  font-weight: 500;
+  line-height: 18px;
+;
+}
+.sortDropdownTriggerButton.active {
+  border: 1px solid black;
 }
 
 .sortDropdownToggle {
+  color: #818181;
   display: flex;
+  gap: 4px;
   text-align: center;
   align-items: center;
 }
+.sortDropdownToggle.active {
+  color: #000000;
+}
 
 .dropdownMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 235px;
   width: 80px;
   height: 68px;
   background: #fff;
@@ -29,11 +48,17 @@
   border: 1px solid #cfcfcf;
   box-shadow: 0 2px 4px #8c8c8c40;
   z-index: 99;
+  @media (max-width: 676px) {
+    top: 270px;
+  }
 }
 
 .dropdownItem {
+  line-height: 18px;
+  text-align: left;
   padding: 6px 16px;
   cursor: pointer;
+  color: #515151;
 }
 
 .dropdownItem:hover {
