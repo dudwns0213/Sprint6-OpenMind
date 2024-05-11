@@ -1,54 +1,12 @@
 import styled from "styled-components";
-import React from "react";
-import OpenMindLogo from "../../assets/logo/logo.svg";
-import SnsLink from "../../assets/icons/ic_link_color.svg?react";
-import SnsKakaoTalk from "../../assets/icons/ic_kakaotalk_color.svg?react";
-import SnsFaceBook from "../../assets/icons/ic_facebook_color.svg?react";
-import QuestIcon from "../../assets/icons/ic_messages.svg?react";
+import React, { useState, useEffect } from "react";
+import QuestionIcon from "../../assets/icons/ic_messages.svg?react";
 import QuestionListItems from "./QuestionListItems";
-/* svrg 사용 */
+import getQuestions from "../../api/api.js";
+import DeleteButton from "./DeleteButton.jsx";
+import deleteQuestion from "../../api/deleteQuestions.js";
+import NoQuestion from "./NoQuestion.jsx";
 
-const Container = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-image: url("${OpenMindLogo}"); //임시 이미지 지정
-  background-repeat: no-repeat;
-  background-position: top center;
-`;
-const Profile = styled.div`
-  padding-top: 50px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 54px;
-`;
-const OpenMind = styled.img`
-  cursor: pointer;
-  width: 170px;
-  height: 67px;
-`;
-const TitleIcon = styled.img`
-  object-fit: cover;
-  max-width: 136px;
-  height: 136px;
-  border-radius: 200px;
-  border: 1px solid black;
-  background-color: skyblue;
-  border: none;
-`;
-const NickName = styled.span`
-  font-size: 32px;
-`;
-const SnsArea = styled.div`
-  display: flex;
-  gap: 12px;
-`;
-const SnsIcon = styled.img`
-  border-radius: 50%;
-  cursor: pointer;
-`;
 const QuestionBox = styled.div`
   background-color: #f5f1ee;
   max-width: 684px;
@@ -60,60 +18,82 @@ const QuestionBox = styled.div`
   border-radius: 16px;
   padding: 16px;
 `;
+
 const QuestionBrownText = styled.div`
   color: #542f1a;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 20px; //
   gap: 8px;
-`;
-const QuestionIcon = styled.img`
-  color: #542f1a;
-`;
-const QuestionCreateBtnArea = styled.div`
-  display: flex;
-  justify-content: end;
-  padding: 24px 12px;
-`;
-const QuestionCreateBtn = styled.button`
-  width: 208px;
-  height: 54px;
-  padding: 12px 24px;
-  border-radius: 200px;
-  border: none;
-  background-color: #542f1a;
-  font-size: 20px;
-  font-weight: 400;
-  color: #fff;
-  box-shadow: 2px 5px 10px gray;
-  cursor: pointer;
+
+  @media (max-width: 576px) {
+    //몇개의 질문이 있습니다 반응형
+    font-size: 18px;
+  }
 `;
 
-function QuestionListUser() {
+const StyledDiv = styled.div`
+  padding: 16px; //여백 추가
+`;
+
+function QuestionListUser({ type }) {
+  const [questionsData, setQuestionsData] = useState([]);
+  const [limit, setLimit] = useState(8);
+  const [offset, setOffset] = useState(0);
+
+  const fetchQuestions = async ({ limit, offset }) => {
+    const data = await getQuestions({ limit, offset });
+
+    setQuestionsData(data);
+  };
+  useEffect(() => {
+    fetchQuestions({ limit, offset });
+  }, [limit, offset]);
+
+  const handleDeleteAllQuestions = async () => {
+    console.log("질문삭제");
+    try {
+      // 질문 데이터가 없으면 삭제를 수행하지 않음
+      if (questionsData.results.length === 0) {
+        console.log("삭제할 질문이 없습니다.");
+        return;
+      }
+      // 모든 질문 삭제 요청을 동시에 보내고, 모든 요청이 완료될 때까지 기다림
+      await Promise.all(
+        questionsData.results.map(async (question) => {
+          const data = await deleteQuestion(question.id);
+          setQuestionsData(data);
+          console.log(`질문 삭제: ${question.id}`);
+        })
+      );
+    } catch (error) {
+      console.error("질문 삭제 실패", error);
+    }
+  };
+
   return (
-    <Container>
-      <Profile>
-        <OpenMind src={OpenMindLogo} alt={OpenMindLogo} />
-        <TitleIcon src={SnsFaceBook} />
-        {/* 임시 이미지 지정 */}
-        <NickName>아초는고양이</NickName>
-        <SnsArea>
-          <SnsLink />
-          <SnsKakaoTalk />
-          <SnsFaceBook />
-        </SnsArea>
-      </Profile>
-      <QuestionBox>
-        <QuestionBrownText>
-          <QuestionIcon src={QuestIcon} alt={QuestIcon} />
-          <span>3개의 질문이 있습니다</span>
-        </QuestionBrownText>
-        <QuestionListItems />
-      </QuestionBox>
-      <QuestionCreateBtnArea>
-        <QuestionCreateBtn>질문 작성하기</QuestionCreateBtn>
-      </QuestionCreateBtnArea>
-    </Container>
+    <StyledDiv>
+      {type ? <DeleteButton onDelete={handleDeleteAllQuestions} /> : null}
+
+      {questionsData?.count ? (
+        <QuestionBox>
+          <QuestionBrownText>
+            <QuestionIcon />
+            <span>{questionsData?.count || 0}개의 질문이 있습니다</span>
+          </QuestionBrownText>
+          {questionsData?.results?.map((question) => (
+            <QuestionListItems
+              question={question}
+              key={`${question.id}`}
+              type={type}
+            />
+          ))}
+        </QuestionBox>
+      ) : (
+        <NoQuestion />
+      )}
+    </StyledDiv>
   );
 }
 

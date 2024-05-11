@@ -2,10 +2,14 @@ import React from "react";
 import { Routes, Route, BrowserRouter as Router} from 'react-router-dom';
 import GlobalStyle from "./styles/GlobalStyle";
 import HomePage from "./pages/homepage/HomePage";
-import Answer from "./pages/post/Answer";
-import UserList from "./pages/post/UserList";
 
 
+import FaceBook from "./assets/icons/ic_facebook.svg?react"; // svgr 사용 예시
+import QuestionsListPage from "./pages/QuestionsListPage.jsx";
+import AnswerPage from "./pages/AnswerPage.jsx";
+import Feeds from "./pages/post/Feeds";
+import AnswersPatchPage from "./pages/AnswersPatchPage.jsx";
+import QuestionsCard from "./pages/QuestionsCard.jsx";
 
 function App() {
   return (
@@ -14,8 +18,8 @@ function App() {
       <GlobalStyle />
       <Routes>
         <Route index element={<HomePage/>}/>
-        <Route path="/post/:id" element={<Answer/>}/>
-        <Route path="/list" element={<UserList/>}/>
+        <Route path="/post/:id" element={<Feeds/>}/>
+        <Route path="/list" element={<QuestionsListPage/>}/>
       </Routes>
     </Router>
     </>

@@ -31,16 +31,6 @@ const QuestionButton = styled.button`
     border: solid 2px ${colors.BROWN_50}
   }
 `
-const UndefindedButton = styled.button`
-  width: 336px;
-  height: 46px;
-  background-color: ${colors.BROWN_30};
-  cursor: pointer;
-  border-radius: 8px;
-  border: none;
-  text-decoration: none;
-  color: #ffffff;
-`
 
 const InputContainer = styled.div`
   width: 100%;
@@ -95,12 +85,13 @@ const PostForm = () => {
         const nameObject = jsonResponse.results[0];
         setUserId(nameObject.id);
         navigate(`post/${nameObject.id}`)
+
     })
       .catch(error => {
       console.error('Error:',error)
   })
 }
-
+  
 }
 return (
   <InputContainer>
@@ -112,3 +103,6 @@ return (
 }
 
 export default PostForm;
+
+
+

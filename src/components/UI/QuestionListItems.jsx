@@ -1,7 +1,16 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Like from "../../assets/icons/ic_thumbs_up.svg?react";
 import UnLike from "../../assets/icons/ic_thumbs_down.svg?react";
+import TextAreaItem from "../UI/TextAreaItem";
+import Kebab from "../../assets/icons/ic_more.svg?react";
+import { colors } from "../../styles/colors";
+import getUsers from "../../api/getUsers";
+import { timeSince } from "../../util/TimeSince";
+import KebabDropdown from "./KebabDropdown";
+import postReaction from "../../api/postReaction";
+import AnswerContent from "./AnswerContent";
+import RenderBy from "./RenderBy";
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -22,12 +31,14 @@ const QuestionArea = styled.div`
   padding: 32px 32px;
   width: 100%;
 `;
-const QuestionClearButton = styled.button`
+const QuestionClearButton = styled.div`
   color: #542f1a;
   background-color: #fff;
   font-size: 14px;
   font-weight: 500;
-  line-height: 18px;
+  display: flex; //텍스트 중앙정렬
+  justify-content: center;
+  align-items: center;
   width: 78px;
   height: 26px;
   border-radius: 8px;
@@ -41,24 +52,14 @@ const QuestionTitleArea = styled.div`
 const QuestionTitle = styled.h2`
   font-size: 18px;
   margin: 0;
+  @media (max-width: 576px) {
+    //질문 내용 반응형
+    font-size: 16px;
+  }
 `;
 const QuestionTextArea = styled.div`
   display: flex;
   gap: 12px;
-`;
-const QuestionTitleIcon = styled(TitleIcon)`
-  width: 48px;
-  height: 48px;
-`;
-const AnswerArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-const QuestionUserNickNameArea = styled.div`
-  display: flex;
-  gap: 8px;
-  align-items: center;
 `;
 const QuestionLikeArea = styled.div`
   display: flex;
@@ -69,8 +70,10 @@ const QuestionLikeArea = styled.div`
 `;
 const LikeArea = styled.div`
   display: flex;
+  align-items: center; //align 중앙정렬
   gap: 6px;
   color: #818181;
+  cursor: pointer;
 `;
 const LikeIcon = styled.img`
   width: 14.12px;
@@ -81,37 +84,99 @@ const UnLikeIcon = styled(LikeIcon)`
 `;
 const LikeText = styled.span`
   font-size: 14px;
+  color: ${(props) => props.color || "black"};
+`;
+const QuestionHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Since = styled.span`
+  color: ${colors.GRAYSCALE_40};
+  font-size: 0.85rem;
+`;
+const KebabContainer = styled.div`
+  position: relative;
   cursor: pointer;
 `;
 
-function QuestionListItems() {
+function QuestionListItems({ type, question, isAnswered }) {
+  //props 내려서 type에 따라 보이는 컴포넌트 변경(kebab, textarea)
+  const [subjectsData, setSubjectsData] = useState([]);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [likeColor, setLikeColor] = useState("black");
+  const [dislikeColor, setDislikeColor] = useState("black");
+  const [likeCount, setLikeCount] = useState(question.like);
+  const [dislikeCount, setDislikeCount] = useState(question.dislike);
+
+  const toggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
+
+  const fetchSubjects = async () => {
+    const users = await getUsers();
+    // console.log(users);
+    setSubjectsData(users);
+  };
+
+  useEffect(() => {
+    fetchSubjects();
+  }, []);
+
+  const handleClick = async (id, type) => {
+    if (isClicked) return; // 이미 클릭되었다면 더 이상 진행하지 않음
+    try {
+      const response = await postReaction(id, type);
+      setIsClicked(true); // 버튼을 비활성화 상태로 변경
+      if (type === "like") {
+        setLikeColor("#1877F2"); // 좋아요 색상 변경
+        setDislikeColor(`${colors.GRAYSCALE_40}`);
+        setLikeCount((prevState) => prevState + 1);
+      } else if (type === "dislike") {
+        setDislikeColor("#1877F2"); // 싫어요 색상 변경
+        setLikeColor(`${colors.GRAYSCALE_40}`);
+        setDislikeCount((prevState) => prevState + 1);
+      }
+    } catch (error) {
+      console.error("Failed to post reaction: ", error);
+    }
+  };
+
   return (
     <QuestionArea>
-      <QuestionClearButton value="답변 완료" />
+      <QuestionHeader>
+        <QuestionClearButton>
+          {question.answer ? "답변완료" : "미답변"}
+        </QuestionClearButton>
+        {type ? (
+          <KebabContainer>
+            <Kebab onClick={toggleDropdown} />
+            {isDropdownVisible ? <KebabDropdown /> : null}
+          </KebabContainer>
+        ) : null}
+      </QuestionHeader>
       <QuestionTitleArea>
-        <span>질문 · 2주전</span>
-        <QuestionTitle>좋아하는 동물은?</QuestionTitle>
+        <Since>질문 · {timeSince(`${question.createdAt}`)}</Since>
+        <QuestionTitle>{question.content}</QuestionTitle>
       </QuestionTitleArea>
       <QuestionTextArea>
-        <QuestionTitleIcon src="" alt="" />
-        <AnswerArea>
-          <QuestionUserNickNameArea>
-            <h3>마초는고양이</h3>
-            <span>2주전</span>
-          </QuestionUserNickNameArea>
-          <p>
-            그들을 불러 귀는 이상의 오직 피고, 가슴이 이상, 못할 봄바람이다.
-          </p>
-        </AnswerArea>
+        <RenderBy type={type} question={question} subjectsData={subjectsData} />
       </QuestionTextArea>
       <QuestionLikeArea>
-        <LikeArea>
+        <LikeArea
+          onClick={() => handleClick(question.id, "like")}
+          disabled={isClicked}
+        >
           <Like />
-          <LikeText>좋아요</LikeText>
+          <LikeText color={likeColor}>좋아요 {likeCount}</LikeText>
         </LikeArea>
-        <LikeArea>
+        <LikeArea
+          onClick={() => handleClick(question.id, "dislike")}
+          disabled={isClicked}
+        >
           <UnLike />
-          <LikeText>싫어요</LikeText>
+          <LikeText color={dislikeColor}>싫어요 {dislikeCount}</LikeText>
         </LikeArea>
       </QuestionLikeArea>
     </QuestionArea>

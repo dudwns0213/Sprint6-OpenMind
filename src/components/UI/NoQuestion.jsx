@@ -7,8 +7,9 @@ const ImageBox = styled.div`
   position: relative;
   justify-content: center;
   align-items: center;
-  width: 716px;
+  max-width: 684px;
   height: 330px;
+  margin: 0 auto 30px;
   background-color: #f5f1ee;
   border: 1px solid #e4d5c9;
   border-radius: 16px;
@@ -18,9 +19,14 @@ const ImageBox = styled.div`
     display: flex;
     align-items: center;
     color: #542f1a;
-    font-size: 1.25rem;
+    font-size: 20px; //
+    padding: 15px;
     img {
       margin-right: 5px;
+    }
+    @media (max-width: 576px) {
+      //아직 질문이 없습니다 반응형
+      font-size: 18px;
     }
   }
 `;
