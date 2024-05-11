@@ -18,7 +18,7 @@ const PostModalPage = styled.div`
   width: 612px;
   height: 454px;
   border-radius: 24px;
-  border-line: none;
+  border: none;
   box-shadow: 0px 16px 20px rgba(48, 48, 48, 0.62);
   background-color: ${colors.GRAYSCALE_10};
   padding: 40px 40px 104px;
