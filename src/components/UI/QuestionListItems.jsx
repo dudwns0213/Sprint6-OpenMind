@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React from "react";
 import Like from "../../assets/icons/ic_thumbs_up.svg?react";
 import UnLike from "../../assets/icons/ic_thumbs_down.svg?react";
+import { useParams } from 'react-router-dom';
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -85,8 +86,11 @@ const LikeText = styled.span`
 `;
 
 function QuestionListItems() {
+  const { itemId } = useParams();
+
   return (
     <QuestionArea>
+      <div>실행값{itemId}</div>
       <QuestionClearButton value="답변 완료" />
       <QuestionTitleArea>
         <span>질문 · 2주전</span>
