@@ -5,7 +5,6 @@ import QuestionListItems from "./QuestionListItems";
 import getQuestions from "../../api/api.js";
 import DeleteButton from "./DeleteButton.jsx";
 import deleteQuestion from "../../api/deleteQuestions.js";
-import NoQuestion from "./NoQuestion.jsx";
 
 const QuestionBox = styled.div`
   background-color: #f5f1ee;
@@ -32,11 +31,9 @@ const QuestionBrownText = styled.div`
     font-size: 18px;
   }
 `;
-
 const StyledDiv = styled.div`
   padding: 16px; //여백 추가
 `;
-
 function QuestionListUser({ type }) {
   const [questionsData, setQuestionsData] = useState([]);
   const [limit, setLimit] = useState(8);
@@ -75,24 +72,19 @@ function QuestionListUser({ type }) {
   return (
     <StyledDiv>
       {type ? <DeleteButton onDelete={handleDeleteAllQuestions} /> : null}
-
-      {questionsData?.count ? (
-        <QuestionBox>
-          <QuestionBrownText>
-            <QuestionIcon />
-            <span>{questionsData?.count || 0}개의 질문이 있습니다</span>
-          </QuestionBrownText>
-          {questionsData?.results?.map((question) => (
-            <QuestionListItems
-              question={question}
-              key={`${question.id}`}
-              type={type}
-            />
-          ))}
-        </QuestionBox>
-      ) : (
-        <NoQuestion />
-      )}
+      <QuestionBox>
+        <QuestionBrownText>
+          <QuestionIcon />
+          <span>{questionsData?.count || 0}개의 질문이 있습니다</span>
+        </QuestionBrownText>
+        {questionsData?.results?.map((question) => (
+          <QuestionListItems
+            question={question}
+            key={`${question.id}`}
+            type={type}
+          />
+        ))}
+      </QuestionBox>
     </StyledDiv>
   );
 }

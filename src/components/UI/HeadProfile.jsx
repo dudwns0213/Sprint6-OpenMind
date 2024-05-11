@@ -17,7 +17,6 @@ const Container = styled.div`
   background-image: url("${OpenMindLogo}"); //임시 이미지 지정
   background-repeat: no-repeat;
   background-position: top center;
-
   @media (max-width: 576px) {
     //헤더 배경화면 반응형
     background-size: 906px;
@@ -37,7 +36,6 @@ const OpenMind = styled(logo)`
   cursor: pointer;
   width: 170px;
   height: 67px;
-
   @media (max-width: 576px) {
     //오픈마인드 로고 반응형
     width: 124px;
@@ -53,7 +51,6 @@ const TitleIcon = styled.img`
   border: 1px solid black;
   background-color: skyblue;
   border: none;
-
   @media (max-width: 576px) {
     max-width: 104px;
     height: 104px; //프로필 사진 반응형
