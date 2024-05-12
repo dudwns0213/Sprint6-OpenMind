@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PersonIcon from "../../assets/icons/ic_person.svg";
-import PostForm from "../../api/PostForm";
+import PostForm from "./PostForm";
 
 
 const StyledDiv = styled.div`

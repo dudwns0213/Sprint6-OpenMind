@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import {colors} from "../styles/colors";
+import {colors} from "../../styles/colors";
 import { Link, useNavigate } from "react-router-dom";
-import { getSubject } from "./api";
+import { getSubject } from "../../api/api";
 
 const Input = styled.input`
   width: 336px;
@@ -67,6 +67,7 @@ const PostForm = () => {
   
 
   const handleSubmit = async () => {
+    try {
     const jsonObject = await getSubject();
 
     const nameArray = jsonObject.results.map(item => item.name)
@@ -76,38 +77,34 @@ const PostForm = () => {
       const nameObject = jsonObject.results[nameIndex];
       setUserId(nameObject.id)
       navigate(`post/${nameObject.id}`)
-    }else{
-       fetch('https://openmind-api.vercel.app/6-7/subjects/?limit=999&offset=0'
+    }else{const response = await fetch('https://openmind-api.vercel.app/6-7/subjects/'
         ,{
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            username: userName,
-            team: "6-7"
-      })
-    }).then(response => response.json())
-      .then(jsonResponse => {
-        console.log(jsonResponse);
-        const nameObject = jsonResponse.results[0];
-        setUserId(nameObject.id);
-        navigate(`post/${nameObject.id}`)
+            "name": userName,
+            "team": "6-7"
+          })
+          })
+      console.log(response);
+      const jsonResponse = await getSubject();
+      const nameObject = jsonResponse.results[0];
+      setUserId(nameObject.id);
+      navigate(`post/${nameObject.id}`)
+    }  
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-    })
-      .catch(error => {
-      console.error('Error:',error)
-  })
-}
-  
-}
 return (
   <InputContainer>
     <Input placeholder='이름을 입력하세요' type='text' onChange={handleInput}/>
     <QuestionButton onClick={handleSubmit}>질문 받기</QuestionButton>
   </InputContainer>
 )
-
 }
 
 export default PostForm;
