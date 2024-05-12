@@ -1,25 +1,24 @@
 import React from "react";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import {colors} from "../../styles/colors";
+import { colors } from "../../styles/colors";
 import InputForm from "../../components/UI/InputForm";
 import QuestionButtonTop from "../../components/UI/QuestionButtonTop";
 import Logoimg from "../../assets/logo/txt_logo.svg?react";
 import BackImg from "../../assets/logo/img_logo.svg?react";
 
-
 const BackColor = styled.div`
   background-color: ${colors.GRAYSCALE_20};
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const BackgroundImg = styled(BackImg)`
   position: fixed;
@@ -29,8 +28,7 @@ const BackgroundImg = styled(BackImg)`
   height: 100%;
 
   fill: none;
-
-`
+`;
 
 const MainContainer = styled.div`
   background-color: none;
@@ -40,26 +38,26 @@ const MainContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  
-`
+`;
 
 const TitleLogo = styled(Logoimg)`
   width: 456px;
   height: 180px;
-`
-
+`;
 
 function HomePage() {
   return (
     <BackColor>
-      <BackgroundImg/>
-      <Link to="/list"><QuestionButtonTop/></Link>
+      <BackgroundImg />
+      <Link to="/list">
+        <QuestionButtonTop text="질문하러 가기" />
+      </Link>
       <MainContainer>
-        <TitleLogo/>
-        <InputForm/>
+        <TitleLogo />
+        <InputForm />
       </MainContainer>
     </BackColor>
-  )
+  );
 }
 
 export default HomePage;
