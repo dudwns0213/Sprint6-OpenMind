@@ -1,0 +1,13 @@
+export const colors = {
+    GRAYSCALE_10: '#FFFFFF',
+    GRAYSCALE_20: '#F9F9F9',
+    GRAYSCALE_30: '#CFCFCF',
+    GRAYSCALE_40: '#818181',
+    GRAYSCALE_50: '#515151',
+    GRAYSCALE_60: '#000000',
+    BROWN_10: '#F5F1EE',
+    BROWN_20: '#E4D5C9',
+    BROWN_30: '#C7BBB5',
+    BROWN_40: '#542F1A',
+    BROWN_50: '#341909'
+}

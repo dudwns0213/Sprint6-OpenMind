@@ -1,0 +1,41 @@
+.sortButtonWrapper {
+  font-size: 14px;
+}
+
+.sortDropdownTriggerButton {
+  width: 80px;
+  height: 34px;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 8px 6px 8px 8px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+}
+
+.sortDropdownToggle {
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
+.dropdownMenu {
+  width: 80px;
+  height: 68px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #cfcfcf;
+  box-shadow: 0 2px 4px #8c8c8c40;
+  z-index: 99;
+}
+
+.dropdownItem {
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  color: #1877f2;
+}

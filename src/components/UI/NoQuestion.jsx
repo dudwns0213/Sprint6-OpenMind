@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import MessagesIcon from "../assets/icons/ic_messages.svg";
-import EmptyBox from "../assets/empty_box.svg";
+import MessagesIcon from "../../assets/icons/ic_messages.svg";
+import EmptyBox from "../../assets/logo/noquestions.svg";
 
 const ImageBox = styled.div`
   display: flex;
@@ -21,6 +21,10 @@ const ImageBox = styled.div`
     font-size: 1.25rem;
     img {
       margin-right: 5px;
+    }
+    @media (max-width: 576px) {
+      //아직 질문이 없습니다 반응형
+      font-size: 18px;
     }
   }
 `;
