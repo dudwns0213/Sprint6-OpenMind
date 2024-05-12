@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PersonIcon from "../../assets/icons/ic_person.svg";
-import PostForm from "../../api/PostForm";
+import PostForm from "./PostForm";
 
 
 const StyledDiv = styled.div`
@@ -13,6 +13,13 @@ const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 767px) {
+    width: 305px;
+    height: 156px;
+    position: fixed;
+    top: 260px;
+  }
 `
 
 const FormContainer = styled.div`
@@ -24,6 +31,10 @@ const FormContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+
+  @media (max-width: 767px) {
+    width: 257px;
+  }
 `
 
 const StyledIcon = styled.img`

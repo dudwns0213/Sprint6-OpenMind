@@ -28,6 +28,11 @@ const BackgroundImg = styled(BackImg)`
   height: 100%;
 
   fill: none;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const MainContainer = styled.div`
@@ -43,6 +48,13 @@ const MainContainer = styled.div`
 const TitleLogo = styled(Logoimg)`
   width: 456px;
   height: 180px;
+
+  @media (max-width: 767px) {
+    width: 248px;
+    height: 98px;
+    position: fixed;
+    top: 80px;
+  }
 `;
 
 function HomePage() {

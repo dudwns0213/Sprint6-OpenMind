@@ -4,6 +4,11 @@ import ArrowIcon from "../../assets/icons/arrow_right_brown.svg?react";
 
 const Background = styled.div`
   background-color: none;
+
+  @media (max-width: 676px) {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const Button = styled.button`
@@ -32,23 +37,15 @@ const Button = styled.button`
     border: 1px solid #c7bbb5;
     cursor: not-allowed; /* 비활성화된 상태일 때 커서를 기본값으로 변경 */
   }
-  span {
-    font-family: Actor;
-    font-size: 16px;
-    font-weight: 400;
-    text-align: left;
+
+  @media (max-width: 1280px) {
+    right: 50px;
   }
-  @media (max-width: 676px) {
-    width: 127px;
-    height: 34px;
-    margin-top: 20px;
-    gap: 4px;
-    span {
-      font-family: Actor;
-      font-size: 14px;
-      font-weight: 400;
-      text-align: left;
-    }
+  @media (max-width: 767px) {
+    top: 202px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
   }
 `;
 const StyledIcon = styled(ArrowIcon)`
