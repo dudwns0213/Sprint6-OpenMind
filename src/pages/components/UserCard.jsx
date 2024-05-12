@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ChatIcon from "../../assets/icons/ic_messages_gray.svg";
 import { Link } from "react-router-dom";
 
-const Container = styled.a`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -87,18 +87,20 @@ const Profile = styled.img`
 
 export default function UserCard({ item }) {
   return (
-    <Container href={`/post/${item.id}/answer`}>
-      <CardImgArea>
-        <Profile src={item.imageSource} />
-        <p className="user">{item.name}</p>
-      </CardImgArea>
-      <QuestionCount>
-        <Question>
-          <img src={ChatIcon} alt="chat icon" />
-          <p>받은질문</p>
-        </Question>
-        <p>{item.questionCount}개</p>
-      </QuestionCount>
-    </Container>
+    <Link to={`/post/${item.id}/answer`}>
+      <Container>
+        <CardImgArea>
+          <Profile src={item.imageSource} />
+          <p className="user">{item.name}</p>
+        </CardImgArea>
+        <QuestionCount>
+          <Question>
+            <img src={ChatIcon} alt="chat icon" />
+            <p>받은질문</p>
+          </Question>
+          <p>{item.questionCount}개</p>
+        </QuestionCount>
+      </Container>
+    </Link>
   );
 }

@@ -9,7 +9,7 @@ import { getCard } from "../api/personalList";
 import NextBtn from "../assets/icons/paginationNext.svg?react";
 import PrevBtn from "../assets/icons/paginationPrev.svg?react";
 import "./Pagination.css";
-import { BrowserRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -116,7 +116,7 @@ const getLimit = () => {
   }
 };
 
-function QuestionListPage() {
+function QuestionUserPage() {
   // api호출하고 받은 아이템 state
   const [card, setCard] = useState([]);
   // api sort파라미터 값 넣어주는 state
@@ -207,4 +207,4 @@ function QuestionListPage() {
   );
 }
 
-export default QuestionListPage;
+export default QuestionUserPage;
