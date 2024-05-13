@@ -1,17 +1,16 @@
 import styled from "styled-components";
-import ChatIcon from "../../assets/icons/ic_messages.svg";
+import ChatIcon from "../../assets/icons/ic_messages_gray.svg";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  box-sizing: border-box;
-  * {
-    margin: 0;
-    padding: 0;
-  }
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 220px;
-  height: 187px;
+  max-width: 220px;
+  max-height: 187px;
+  justify-self: stretch;
+  flex-grow: 0; /* 너비 증가 방지 */
+  flex-shrink: 0; /* 너비 감소 방지 */
   padding: 20px;
   border-radius: 16px;
   font-size: 1rem;
@@ -20,8 +19,18 @@ const Container = styled.div`
   .user {
     font-size: 1.25rem;
   }
-  img {
-    margin-right: 5px;
+  @media (max-width: 884px) {
+    justify-self: center;
+    width: 100%;
+    padding: 20px;
+  }
+
+  @media (max-width: 676px) {
+    padding: 16px;
+    min-width: 156px;
+    .user {
+      font-size: 18px;
+    }
   }
 `;
 
@@ -30,32 +39,68 @@ const QuestionCount = styled.div`
   justify-content: space-between;
   align-items: center;
   color: #818181;
-  margin-top: 10px;
+  @media (max-width: 676px) {
+    p {
+      font-size: 14px;
+    }
+  }
 `;
 const Question = styled.div`
   display: flex;
+  gap: 4px;
   align-items: center;
+  img {
+    width: 18px;
+    height: 18px;
+  }
+  p {
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    text-align: left;
+  }
+  @media (max-width: 676px) {
+    p {
+      font-size: 14px;
+    }
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
 `;
-
-const Profile = styled.div`
+const CardImgArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+const Profile = styled.img`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: crimson;
+  @media (max-width: 676px) {
+    width: 48px;
+    height: 48px;
+  }
 `;
 
-export default function UserCard() {
+export default function UserCard({ item }) {
   return (
-    <Container>
-      <Profile />
-      <p className="user">고양이</p>
-      <QuestionCount>
-        <Question>
-          <img src={ChatIcon} alt="chat icon" />
-          <p>받은 질문</p>
-        </Question>
-        <p>9개</p>
-      </QuestionCount>
-    </Container>
+    <Link to={`/post/${item.id}/answer`}>
+      <Container>
+        <CardImgArea>
+          <Profile src={item.imageSource} />
+          <p className="user">{item.name}</p>
+        </CardImgArea>
+        <QuestionCount>
+          <Question>
+            <img src={ChatIcon} alt="chat icon" />
+            <p>받은질문</p>
+          </Question>
+          <p>{item.questionCount}개</p>
+        </QuestionCount>
+      </Container>
+    </Link>
   );
 }
