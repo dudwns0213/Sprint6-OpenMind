@@ -1,13 +1,16 @@
 import { useState } from "react";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PostButton from "../../components/UI/PostButton.jsx";
 import PostModal from "../../components/UI/PostModal.jsx";
 import QuestionListUser from "../../components/UI/QuestionListUser";
 import HeadProfile from "../../components/UI/HeadProfile.jsx";
+import { useLocation } from "react-router-dom";
 
 function Feeds() {
   const [modal, setModal] = useState(false);
-  const {userId} = useParams();
+
+  const { state } = useLocation();
+  console.log(state);
 
   const showModal = () => {
     setModal(true);
@@ -20,7 +23,7 @@ function Feeds() {
   return (
     <>
       {modal ? <PostModal closeModal={closeModal} /> : null}
-      <HeadProfile id={userId}/>
+      <HeadProfile />
       <QuestionListUser type={false} />
       <PostButton onClick={() => showModal()} />
     </>
