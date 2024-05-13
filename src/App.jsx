@@ -18,7 +18,7 @@ function App() {
       <GlobalStyle />
       <Routes>
         <Route index element={<HomePage/>}/>
-        <Route path="/post/:id" element={<Feeds/>}/>
+        <Route path="/post/:id/answer" element={<AnswerPage/>}/>
         <Route path="/list" element={<QuestionsListPage/>}/>
       </Routes>
     </Router>

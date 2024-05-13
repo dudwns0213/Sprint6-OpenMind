@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React, {useId, useState} from "react";
 import styled from "styled-components";
 import {colors} from "../../styles/colors";
 import { Link, useNavigate } from "react-router-dom";
 import { getSubject } from "../../api/api";
+import userAll from "../../util/LocalStorage";
 
 const Input = styled.input`
   width: 336px;
@@ -55,29 +56,32 @@ const InputContainer = styled.div`
 
 const PostForm = () => {  
   const navigate = useNavigate();
+  const userStorage = window.localStorage;
 
   const [userId, setUserId] = useState()
   
   const [userName, setUserName] = useState('')
+
+  
   const handleInput = (event) => {
     setUserName(event.target.value)
     return userName;
   }
-
-  
 
   const handleSubmit = async () => {
     try {
     const jsonObject = await getSubject();
 
     const nameArray = jsonObject.results.map(item => item.name)
-  
+    userStorage.clear();
     if(nameArray.includes(userName)) {
       const nameIndex = nameArray.indexOf(userName);
       const nameObject = jsonObject.results[nameIndex];
       setUserId(nameObject.id)
-      navigate(`post/${nameObject.id}`)
-    }else{const response = await fetch('https://openmind-api.vercel.app/6-7/subjects/'
+      userStorage.setItem(userName,userId);
+      navigate(`post/${nameObject.id}/answer`);
+
+        }else{const response = await fetch('https://openmind-api.vercel.app/6-7/subjects/'
         ,{
           method: 'POST',
           headers: {
@@ -92,7 +96,8 @@ const PostForm = () => {
       const jsonResponse = await getSubject();
       const nameObject = jsonResponse.results[0];
       setUserId(nameObject.id);
-      navigate(`post/${nameObject.id}`)
+      userStorage.setItem(userName, userId);
+      navigate(`post/${nameObject.id}/answer`)
     }  
   } catch (error) {
     console.log(error)
