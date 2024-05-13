@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import OpenLogo from "../assets/logo/openmindlogo.svg?react";
 import QuestionButtonTop from "../components/UI/QuestionButtonTop";
-import { colors } from "../styles/colors";
 import DropdownMenu from "../components/UI/DropdownMenu";
 import UserCard from "./components/UserCard";
 import { useEffect, useState } from "react";
@@ -9,11 +8,11 @@ import { getCard } from "../api/personalList";
 import NextBtn from "../assets/icons/paginationNext.svg?react";
 import PrevBtn from "../assets/icons/paginationPrev.svg?react";
 import "./Pagination.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
-  max-width: 940px;
+  max-width: 1004px;
   padding: 40px 0 60px;
   margin: 0 auto;
 `;
@@ -62,12 +61,10 @@ const QuestionListGrid = styled.div`
   width: 100%;
   height: 394px;
   display: grid;
-
   justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center;
   gap: 20px;
-
   grid-template: repeat(2, 1fr) / repeat(4, 1fr);
-
   @media (max-width: 884px) {
     grid-template: repeat(2, 1fr) / repeat(3, 1fr);
   }
@@ -100,6 +97,9 @@ const Ct = styled.div`
   padding: 0 32px;
   display: flex;
   justify-content: space-between;
+  @media (max-width: 676px) {
+    padding: 0 24px;
+  }
 `;
 
 const getLimit = () => {
@@ -117,25 +117,26 @@ const getLimit = () => {
 };
 
 function QuestionUserPage() {
-  // api호출하고 받은 아이템 state
+  // api호출하고 받은 아이템 state itemList
   const [card, setCard] = useState([]);
-  // api sort파라미터 값 넣어주는 state
+  // api sort파라미터 값 넣어주는 state orderBy
   const [sort, setSort] = useState("name");
   // api offset파라미터 offset=0이면 0번부터 시작하는 state
-  const [offset, setOffset] = useState(0);
-  // api limit파라미터 받아오는 아이템 개수 state
-  const [limit, setLimit] = useState(getLimit());
+  const [offset, setOffset] = useState(1);
+  // api limit파라미터 받아오는 아이템 개수 state pageSize
+  const [limit, setLimit] = useState(getLimit()); 
   // api 호출하고 받은 아이템 전체 개수 확인 state
   const [totalCount, setTotalCount] = useState(0);
 
   const changeSortButton = sortChoice => {
     setSort(sortChoice);
-    setOffset(0);
+    setOffset(1);
   };
   let allItemsCount = [];
   for (let i = 1; i <= Math.ceil(totalCount / limit); i++) {
     allItemsCount.push(i);
   }
+
   useEffect(() => {
     const handleCardItemLoad = async () => {
       let result = await getCard({ sort, offset, limit });
@@ -158,7 +159,7 @@ function QuestionUserPage() {
   }, [sort, offset, limit]);
 
   const next = () => {
-    if (Math.ceil(totalCount / limit) === offset + 1) return;
+    if (Math.ceil(totalCount / limit) === offset) return;
     setOffset(offset + 1);
   };
 
@@ -193,9 +194,9 @@ function QuestionUserPage() {
             <div
               key={item}
               className={`paginationButton ${
-                offset === item - 1 ? "active" : ""
+                offset === item  ? "active" : ""
               }`}
-              onClick={() => setOffset(item - 1)}
+              onClick={() => setOffset(item)}
             >
               {item}
             </div>

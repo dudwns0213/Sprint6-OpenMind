@@ -3,9 +3,13 @@ import PostButton from "./PostButton.jsx";
 import PostModal from "./PostModal";
 import QuestionListUser from "../../components/UI/QuestionListUser";
 import HeadProfile from "../../components/UI/HeadProfile.jsx";
+import { useLocation } from 'react-router-dom';
 
 function Feeds() {
   const [modal, setModal] = useState(false);
+  
+  const { state } = useLocation();
+  console.log(state);
 
   const showModal = () => {
     setModal(true);

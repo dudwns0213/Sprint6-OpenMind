@@ -1,16 +1,17 @@
 import styled from "styled-components";
 import ChatIcon from "../../assets/icons/ic_messages_gray.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
+const StyledLink = styled.div`
+  display: flex;
+  justify-content: center;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-width: 220px;
-  max-height: 187px;
-  justify-self: stretch;
-  flex-grow: 0; /* 너비 증가 방지 */
-  flex-shrink: 0; /* 너비 감소 방지 */
+  width: 100%;
+  height: 187px;
   padding: 20px;
   border-radius: 16px;
   font-size: 1rem;
@@ -19,13 +20,9 @@ const Container = styled.div`
   .user {
     font-size: 1.25rem;
   }
-  @media (max-width: 884px) {
-    justify-self: center;
-    width: 100%;
-    padding: 20px;
-  }
-
   @media (max-width: 676px) {
+    width: 90%;
+    height: 168px;
     padding: 16px;
     min-width: 156px;
     .user {
@@ -86,8 +83,13 @@ const Profile = styled.img`
 `;
 
 export default function UserCard({ item }) {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/post/${item.id}/answer`, { state: item.id });
+    console.log(item)
+  }
   return (
-    <Link to={`/post/${item.id}/answer`}>
+    <StyledLink onClick={handleClick}>
       <Container>
         <CardImgArea>
           <Profile src={item.imageSource} />
@@ -101,6 +103,6 @@ export default function UserCard({ item }) {
           <p>{item.questionCount}개</p>
         </QuestionCount>
       </Container>
-    </Link>
+    </StyledLink>
   );
 }
