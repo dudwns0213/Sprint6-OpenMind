@@ -1,6 +1,6 @@
 import { useState } from "react";
-import PostButton from "./PostButton.jsx";
-import PostModal from "./PostModal";
+import PostButton from "../../components/UI/PostButton.jsx";
+import PostModal from "../../components/UI/PostModal.jsx";
 import QuestionListUser from "../../components/UI/QuestionListUser";
 import HeadProfile from "../../components/UI/HeadProfile.jsx";
 import { useLocation } from 'react-router-dom';

@@ -4,6 +4,7 @@ import { colors } from "../../styles/colors";
 import MessageIcon from "../../assets/icons/ic_messages.svg?react";
 import CloseIcon from "../../assets/icons/ic_close.svg?react";
 import IconProfile from "../../assets/icons/ic_person.svg?react";
+import getUsers from "../../api/getUsers";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -81,6 +82,7 @@ const ModalProfile = styled.div`
   justify-content: flex-start;
   align-items: center;
   height: 30px;
+  gap: 4px; //프로필 이미지랑 이름 띄우기
 `;
 
 const ProfileText = styled.p`
@@ -129,10 +131,29 @@ const ModalPostButton = styled.button`
   color: #ffffff;
   font-size: 16px;
 `;
+const ProfileImg = styled.img`
+  //프로필 이미지
+  object-fit: cover;
+  max-width: 136px;
+  height: 136px;
+  border-radius: 200px;
+  background-color: skyblue;
+  border: none;
+`;
+const Profile = styled(ProfileImg)`
+  width: 28px;
+  height: 28px;
+  @media (max-width: 576px) {
+    //사용자 프로필 반응형
+    width: 32px;
+    height: 32px;
+  }
+`;
 
 function PostModal({ closeModal }) {
   const [inputValue, setInputValue] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [user, setUser] = useState("");
 
   useEffect(() => {
     setIsButtonDisabled(inputValue.trim() === "");
@@ -141,6 +162,14 @@ function PostModal({ closeModal }) {
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
+  const fetchSubjects = async () => {
+    //프로필 이미지, 이름 불러올 함수
+    const users = await getUsers();
+    setUser(users);
+  };
+  useEffect(() => {
+    fetchSubjects();
+  }, []);
 
   return (
     <div className="global">
@@ -157,8 +186,8 @@ function PostModal({ closeModal }) {
           <ModalContent>
             <ModalProfile>
               <ProfileText>To.</ProfileText>
-              <IconProfile />
-              <p>아초는 고양이</p>
+              <Profile src={user.imageSource} />
+              <p>{user.name}</p>
             </ModalProfile>
             <TextContainer>
               <ModalTextArea
