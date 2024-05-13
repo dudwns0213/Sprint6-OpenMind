@@ -7,7 +7,10 @@ const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
   font-family: "Pretendard"
 }
-
+a{
+  text-decoration: none;
+  color:black;
+}
 button,
 input,
 textarea,

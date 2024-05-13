@@ -1,25 +1,22 @@
 import React from "react";
+import { Routes, Route, BrowserRouter, Router } from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
-import FaceBook from "./assets/icons/ic_facebook.svg?react"; // svgr 사용 예시
-import QuestionsListPage from "./pages/QuestionsListPage.jsx";
-import HomePage from "./pages/HomePage.jsx";
-import AnswerPage from "./pages/AnswerPage.jsx";
+import QuestionUserPage from "./pages/QuestionUserPage.jsx";
 import Feeds from "./pages/post/Feeds";
-import AnswersPatchPage from "./pages/AnswersPatchPage.jsx";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/homepage/HomePage.jsx";
+import AnswerPage from "./pages/AnswerPage.jsx";
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <GlobalStyle />
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<AnswersPatchPage />} />
-          <Route path="/quetions" element={<QuestionsListPage />} />
-          <Route path="/feeds" element={<Feeds />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+      <Routes>
+        <Route index element={<HomePage />} />
+        <Route path="/list" element={<QuestionUserPage />} />
+        <Route path="/post/:itemId" element={<AnswerPage />} />
+        <Route path="/post/:itemId/answer" element={<Feeds />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
