@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { colors } from "../../styles/colors";
 import MessageIcon from "../../assets/icons/ic_messages.svg?react";
 import CloseIcon from "../../assets/icons/ic_close.svg?react";
-import IconProfile from "../../assets/icons/ic_person.svg?react";
 import getUsers from "../../api/getUsers";
 
 const ModalBackground = styled.div`
@@ -58,17 +57,6 @@ const HeaderContent = styled.div`
   align-items: center;
 `;
 
-const ModalHeaderIcon = styled.img`
-  width: 28px;
-  height: 28px;
-  margin-right: 7px;
-`;
-const ModalClose = styled.img`
-  width: 28px;
-  height: 28px;
-  cursor: pointer;
-`;
-
 const ModalContent = styled.div`
   height: 274px;
   display: flex;
@@ -101,21 +89,14 @@ const TextContainer = styled.div`
 
 const ModalTextArea = styled.textarea`
   position: absolute;
-  /* --size-- */
   width: 496px;
   height: 144px;
-  /* --style-- */
   background-color: ${colors.GRAYSCALE_20};
-  overflow-y: scroll;
-  overflow-x: hidden;
-  border: none;
-  color: #000000;
+  border: none; // 테두리 제거
   font-size: 16px;
-  resize: none;
-
-  &:focus {
-    border: solid 1px ${colors.BROWN_40};
-  }
+  resize: none; // 크기 조절 기능 제거
+  overflow: auto; // 스크롤바 제거
+  outline: 0;
 
   ::placeholder {
     color: ${colors.GRAYSCALE_40};
@@ -163,7 +144,6 @@ function PostModal({ closeModal, subjectId, onPostSubmitted }) {
   };
 
   const handlePostSubmit = async () => {
-    console.log("실행됌.");
     try {
       const response = await fetch(
         `https://openmind-api.vercel.app/6-7/subjects/${user.id}/questions/`,
@@ -187,7 +167,6 @@ function PostModal({ closeModal, subjectId, onPostSubmitted }) {
       );
 
       if (response.ok) {
-        console.log("Question posted successfully!");
         onPostSubmitted(); // 포스트 전송 성공 시 콜백 함수 호출
         closeModal(); // 모달 닫기
       } else {

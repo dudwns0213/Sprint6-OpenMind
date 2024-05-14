@@ -9,10 +9,7 @@ import HeadProfile from "../components/UI/HeadProfile";
 const AnswerPage = () => {
   return (
     <div>
-      <GlobalStyle />
-
       <HeadProfile />
-
       <QuestionListUser type={true} />
     </div>
   );

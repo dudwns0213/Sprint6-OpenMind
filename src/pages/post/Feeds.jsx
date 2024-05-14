@@ -7,6 +7,7 @@ import HeadProfile from "../../components/UI/HeadProfile.jsx";
 import { useLocation } from "react-router-dom";
 import { getQuestions } from "../../api/api.js";
 import NoQuestion from "../../components/UI/NoQuestion.jsx";
+import { Link } from "react-router-dom";
 
 function Feeds() {
   const { state } = useLocation(); //subject id받아오기
@@ -52,7 +53,9 @@ function Feeds() {
           onPostSubmitted={handlePostSubmitted}
         />
       ) : null}
-      <HeadProfile subjectId={state} />
+      <Link to="/">
+        <HeadProfile subjectId={state} />
+      </Link>
       {check ? (
         <NoQuestion />
       ) : (
