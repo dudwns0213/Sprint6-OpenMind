@@ -51,7 +51,7 @@ const Container = styled.div`
   width: 100%;
 `;
 
-function TextAreaItem({ question, subjectsData }) {
+function TextAreaItem({ question, subjectsData, handleAnswer }) {
   const [content, setContent] = useState("");
   //const [questionId, SetquestionId] = useState(9959);
   const [isRejected, setisRejected] = useState(false);
@@ -78,8 +78,9 @@ function TextAreaItem({ question, subjectsData }) {
         isRejected: `${isRejected}`,
       });
 
-      const data = await createAnswers(formData);
+      const data = await createAnswers(question.id, formData); //답변 보낼때 특정 질문id로 보내기 위해 id값 추가
       setAnswerData(data); // 성공적으로 답변을 생성하면 answerData 상태를 업데이트
+      handleAnswer(data); //답변상태 변경
       console.log(data);
     } catch (error) {
       setSubmittingError(error); // 에러가 발생하면 submittingError 상태를 업데이트하여 사용자에게 피드백 제공

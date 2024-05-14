@@ -111,6 +111,7 @@ function QuestionListItems({ type, question, subjectId }) {
   const [dislikeCount, setDislikeCount] = useState(question.dislike);
   const [likeChanged, setLikeChanged] = useState(false);
   const [disLikeChanged, setDislikeChanged] = useState(false);
+  const [answer, setAnswer] = useState(question.answer);
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
@@ -147,7 +148,7 @@ function QuestionListItems({ type, question, subjectId }) {
     <QuestionArea>
       <QuestionHeader>
         <QuestionClearButton>
-          {question.answer ? "답변완료" : "미답변"}
+          {answer ? "답변완료" : "미답변"}
         </QuestionClearButton>
         {type ? (
           <KebabContainer>
@@ -161,7 +162,12 @@ function QuestionListItems({ type, question, subjectId }) {
         <QuestionTitle>{question.content}</QuestionTitle>
       </QuestionTitleArea>
       <QuestionTextArea>
-        <RenderBy type={type} question={question} subjectsData={subjectsData} />
+        <RenderBy
+          type={type}
+          question={question}
+          subjectsData={subjectsData}
+          handleAnswer={setAnswer}
+        />
       </QuestionTextArea>
       <QuestionLikeArea>
         <LikeArea
