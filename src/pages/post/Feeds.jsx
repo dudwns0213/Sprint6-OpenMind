@@ -10,7 +10,6 @@ function Feeds() {
   
   const { state } = useLocation();
   console.log(state);
-
   const showModal = () => {
     setModal(true);
     document.body.style.overflow = "hidden";

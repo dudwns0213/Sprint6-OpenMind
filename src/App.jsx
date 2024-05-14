@@ -13,8 +13,8 @@ function App() {
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="/list" element={<QuestionUserPage />} />
-        <Route path="/post/:itemId" element={<AnswerPage />} />
-        <Route path="/post/:itemId/answer" element={<Feeds />} />
+        <Route path="/post/:itemId/answer" element={<AnswerPage />} />
+        <Route path="/post/:itemId/" element={<Feeds />} />
       </Routes>
     </BrowserRouter>
   );
