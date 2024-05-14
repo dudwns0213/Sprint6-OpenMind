@@ -12,6 +12,7 @@ import KebabDropdown from "./KebabDropdown";
 import postReaction from "../../api/postReaction";
 import RenderBy from "./RenderBy";
 import AnswerPatchTextArea from "./AnswerPatchTextArea";
+import { deleteAnswers } from "../../api/OpenMindApi.js";
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -127,7 +128,7 @@ function QuestionListItems({ type, question, subjectId }) {
 
   useEffect(() => {
     fetchSubjects();
-  }, [isEditing]);
+  }, []);
 
   const handleClick = async (id, type) => {
     if (isClicked) return; // 이미 클릭되었다면 더 이상 진행하지 않음
@@ -150,8 +151,14 @@ function QuestionListItems({ type, question, subjectId }) {
     setIsEditing(true); // isPatchMode 상태를 true로 설정
   };
 
-  const handlePatchModeExit = () => {
-    setIsEditing(false); // isPatchMode 상태를 false로 설정
+  const handleDeleteClick = async () => {
+    try {
+      await deleteAnswers(question.id); //답변 보낼때 특정 질문id로 보내기 위해 id값 추가
+    } catch (error) {
+      console.log(error); // 에러가 발생하면 submittingError 상태를 업데이트하여 사용자에게 피드백 제공
+    } finally {
+      window.location.reload();
+    }
   };
 
   return (
@@ -164,7 +171,10 @@ function QuestionListItems({ type, question, subjectId }) {
           <KebabContainer>
             <Kebab onClick={toggleDropdown} />
             {isDropdownVisible ? (
-              <KebabDropdown handleEditClick={handleEditClick} />
+              <KebabDropdown
+                handleEditClick={handleEditClick}
+                handleDeleteClick={handleDeleteClick}
+              />
             ) : null}
           </KebabContainer>
         ) : null}
@@ -178,7 +188,8 @@ function QuestionListItems({ type, question, subjectId }) {
           <AnswerPatchTextArea
             question={question}
             subjectsData={subjectsData}
-            handleAnswer={answer}
+            answerData={answer.content}
+            answerId={answer.id}
           />
         ) : (
           <RenderBy
