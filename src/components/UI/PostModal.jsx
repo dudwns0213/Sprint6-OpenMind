@@ -124,13 +124,15 @@ const ModalTextArea = styled.textarea`
 `;
 
 const ModalPostButton = styled.button`
-  background-color: ${colors.BROWN_30};
+  background-color: ${(props) =>
+    props.disabled ? colors.BROWN_30 : colors.BROWN_40};
   border-radius: 8px;
   border: none;
   height: 46px;
   color: #ffffff;
   font-size: 16px;
 `;
+
 const ProfileImg = styled.img`
   //프로필 이미지
   object-fit: cover;
@@ -150,22 +152,57 @@ const Profile = styled(ProfileImg)`
   }
 `;
 
-function PostModal({ closeModal, subjectId }) {
+function PostModal({ closeModal, subjectId, onPostSubmitted }) {
   const [inputValue, setInputValue] = useState("");
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [user, setUser] = useState("");
-
-  useEffect(() => {
-    setIsButtonDisabled(inputValue.trim() === "");
-  }, [inputValue]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
+    setIsButtonDisabled(e.target.value === ""); // 입력값이 비어있으면 버튼 비활성화
   };
+
+  const handlePostSubmit = async () => {
+    console.log("실행됌.");
+    try {
+      const response = await fetch(
+        `https://openmind-api.vercel.app/6-7/subjects/${user.id}/questions/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            subjectId: user.id,
+            content: inputValue,
+            like: 0,
+            dislike: 0,
+            team: "6-7",
+            answer: {
+              content: "",
+              isRejected: true,
+            },
+          }),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Question posted successfully!");
+        onPostSubmitted(); // 포스트 전송 성공 시 콜백 함수 호출
+        closeModal(); // 모달 닫기
+      } else {
+        console.error("Error posting question:", response.status);
+      }
+    } catch (error) {
+      console.error("Error posting question:", error);
+    }
+  };
+
   const fetchSubjects = async () => {
     //프로필 이미지, 이름 불러올 함수
     const users = await getUsers(subjectId, {});
     setUser(users);
+    console.log(users.id);
   };
   useEffect(() => {
     fetchSubjects();
@@ -196,7 +233,10 @@ function PostModal({ closeModal, subjectId }) {
                 onChange={handleInputChange}
               />
             </TextContainer>
-            <ModalPostButton disabled={isButtonDisabled}>
+            <ModalPostButton
+              onClick={handlePostSubmit}
+              disabled={isButtonDisabled}
+            >
               질문 보내기
             </ModalPostButton>
           </ModalContent>

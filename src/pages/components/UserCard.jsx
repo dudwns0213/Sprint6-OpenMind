@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 const StyledLink = styled.div`
   display: flex;
   justify-content: center;
-`
+`;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -85,9 +85,9 @@ const Profile = styled.img`
 export default function UserCard({ item }) {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/post/${item.id}/answer`, { state: item.id });
-    console.log(item)
-  }
+    navigate(`/post/${item.id}`, { state: item.id });
+    console.log(item);
+  };
   return (
     <StyledLink onClick={handleClick}>
       <Container>

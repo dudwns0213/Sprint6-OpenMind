@@ -53,43 +53,43 @@ function QuestionListUser({ type, subjectId }) {
     setQuestionsData(data);
     setNext(`${data.next}`); //처음 데이터 받아올때 next에 다음 가져올 데이터 url 저장
   };
+
+  const fetchMore = async () => {
+    const response = await fetch(`${next}`); // 다음 페이지 요청
+    const newData = await response.json();
+    setQuestionsData((prev) => {
+      return {
+        ...prev,
+        results: prev.results.concat(newData.results),
+        // 기존 데이터에 추가 데이터를 합침
+      };
+    });
+    setNext(`${newData.next}`); // next url 업데이트
+    if (newData.next === null) return setDone(true); // 데이터 다 불러온 상태를 감지함
+  };
+
   useEffect(() => {
     fetchQuestions();
     setLoading(true);
   }, [subjectId]); //id받아올때마다 다시 실행
 
   useEffect(() => {
-    //무한 스크롤 구현
+    // 무한 스크롤 구현
     const observer = new IntersectionObserver(
       (entries) => {
-        if (done == true) return setLoading(false); //데이터를 다 불러오면 함수 종료
-        //관찰 대상(페이지 맨아래)가 화면에 들어왔는지 확인 + 첫 데이터 불러온 후에 실행하게 함
+        if (done === true) return setLoading(false); // 데이터를 다 불러오면 함수 종료
+        // 관찰 대상(페이지 맨아래)가 화면에 들어왔는지 확인 + 첫 데이터 불러온 후에 실행하게 함
         if (entries[0].isIntersecting && loading) {
-          //추가 데이터 로드 함수
           setLoading(true);
-          async function fetchMore() {
-            const response = await fetch(`${next}`); //다음 페이지 요청
-
-            const newData = await response.json();
-            setQuestionsData((prev) => {
-              return {
-                ...prev,
-                results: prev.results.concat(newData.results),
-                //기존 데이터에 추가 데이터를 합침
-              };
-            });
-            setNext(`${newData.next}`); //next url 업데이트
-            if (newData.next === null) return setDone(true); //데이터 다 불러온 상태를 감지함
-          }
-          fetchMore(); //추가 데이터 로드 함수 실행
+          fetchMore(); // 추가 데이터 로드 함수 실행
         }
       },
-      { threshold: 1.0 } //관찰 대상이 완전히 화면에 들어왔을 때 콜백함수 실행함
+      { threshold: 1.0 } // 관찰 대상이 완전히 화면에 들어왔을 때 콜백함수 실행함
     );
-    observer.observe(bottom.current); //관찰대상 = 페이지 맨 아래
+    observer.observe(bottom.current); // 관찰대상 = 페이지 맨 아래
 
-    return () => observer.disconnect(); //컴포넌트 언마운트시 observer 인스턴스 해제함
-  }, [next]); //새로운 url 변경될 때마다 실행시킴
+    return () => observer.disconnect(); // 컴포넌트 언마운트시 observer 인스턴스 해제함
+  }, [next, loading]); //
 
   const handleDeleteAllQuestions = async () => {
     console.log("질문삭제");
