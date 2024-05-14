@@ -150,7 +150,7 @@ const Profile = styled(ProfileImg)`
   }
 `;
 
-function PostModal({ closeModal }) {
+function PostModal({ closeModal, subjectId }) {
   const [inputValue, setInputValue] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [user, setUser] = useState("");
@@ -164,7 +164,7 @@ function PostModal({ closeModal }) {
   };
   const fetchSubjects = async () => {
     //프로필 이미지, 이름 불러올 함수
-    const users = await getUsers();
+    const users = await getUsers(subjectId, {});
     setUser(users);
   };
   useEffect(() => {
