@@ -9,7 +9,7 @@ import SnsFaceBook from "../../assets/icons/ic_facebook_color.svg?react";
 import ToastMessage from "./ToastMessage";
 import * as func from "../../util/Sns.js";
 import getUsers from "../../api/getUsers.js";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -106,7 +106,9 @@ const HeadProfile = ({ image, subjectId }) => {
     <div>
       <Container>
         <Profile>
-          <OpenMind />
+          <Link to="/">
+            <OpenMind />
+          </Link>
           <TitleIcon src={subjectsData.imageSource} />
           <NickName>{subjectsData.name}</NickName>
           <SnsArea>

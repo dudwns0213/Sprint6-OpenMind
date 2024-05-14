@@ -53,9 +53,7 @@ function Feeds() {
           onPostSubmitted={handlePostSubmitted}
         />
       ) : null}
-      <Link to="/">
-        <HeadProfile subjectId={state} />
-      </Link>
+      <HeadProfile subjectId={state} />
       {check ? (
         <NoQuestion />
       ) : (
