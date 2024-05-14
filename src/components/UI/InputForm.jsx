@@ -15,7 +15,6 @@ const StyledDiv = styled.div`
   align-items: center;
 
   @media (max-width: 767px) {
-    display: block;
     width: 305px;
     height: 156px;
     position: fixed;
@@ -35,6 +34,7 @@ const FormContainer = styled.div`
 
   @media (max-width: 767px) {
     width: 257px;
+    position: absolute;
   }
 `
 
