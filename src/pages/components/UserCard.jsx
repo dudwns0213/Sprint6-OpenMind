@@ -17,6 +17,7 @@ const Container = styled.div`
   font-size: 1rem;
   border: 1px solid #818181;
   background: white;
+  cursor: pointer;
   .user {
     font-size: 1.25rem;
   }
@@ -85,9 +86,9 @@ const Profile = styled.img`
 export default function UserCard({ item }) {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/post/${item.id}`, { state: item.id });
-    console.log(item);
-  };
+    navigate(`/post/${item.id}/`, { state: item.id });
+    console.log(item)
+  }
   return (
     <StyledLink onClick={handleClick}>
       <Container>
