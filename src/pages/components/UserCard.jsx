@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 const StyledLink = styled.div`
   display: flex;
   justify-content: center;
-`
+`;
 const Container = styled.div`
   display: flex;
   flex-direction: column;

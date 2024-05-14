@@ -15,6 +15,7 @@ const StyledDiv = styled.div`
   align-items: center;
 
   @media (max-width: 767px) {
+    display: block;
     width: 305px;
     height: 156px;
     position: fixed;

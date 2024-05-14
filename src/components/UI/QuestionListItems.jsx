@@ -100,7 +100,7 @@ const KebabContainer = styled.div`
   cursor: pointer;
 `;
 
-function QuestionListItems({ type, question, isAnswered }) {
+function QuestionListItems({ type, question, subjectId }) {
   //props 내려서 type에 따라 보이는 컴포넌트 변경(kebab, textarea)
   const [subjectsData, setSubjectsData] = useState([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -111,13 +111,14 @@ function QuestionListItems({ type, question, isAnswered }) {
   const [dislikeCount, setDislikeCount] = useState(question.dislike);
   const [likeChanged, setLikeChanged] = useState(false);
   const [disLikeChanged, setDislikeChanged] = useState(false);
+  const [answer, setAnswer] = useState(question.answer);
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
   };
 
   const fetchSubjects = async () => {
-    const users = await getUsers();
+    const users = await getUsers(subjectId, {});
     // console.log(users);
     setSubjectsData(users);
   };
@@ -147,7 +148,7 @@ function QuestionListItems({ type, question, isAnswered }) {
     <QuestionArea>
       <QuestionHeader>
         <QuestionClearButton>
-          {question.answer ? "답변완료" : "미답변"}
+          {answer ? "답변완료" : "미답변"}
         </QuestionClearButton>
         {type ? (
           <KebabContainer>
@@ -161,7 +162,12 @@ function QuestionListItems({ type, question, isAnswered }) {
         <QuestionTitle>{question.content}</QuestionTitle>
       </QuestionTitleArea>
       <QuestionTextArea>
-        <RenderBy type={type} question={question} subjectsData={subjectsData} />
+        <RenderBy
+          type={type}
+          question={question}
+          subjectsData={subjectsData}
+          handleAnswer={setAnswer}
+        />
       </QuestionTextArea>
       <QuestionLikeArea>
         <LikeArea
