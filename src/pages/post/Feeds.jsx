@@ -25,7 +25,6 @@ function Feeds() {
   const fetchQuestions = async () => {
     //질문이 없으면 NoQuestion, 있으면 보여줌
     const data = await getQuestions(state, {});
-    console.log(`id는 ${state}, count는 ${data.count}`);
     if (data.count === 0) {
       setCheck(true);
     } else {
@@ -38,7 +37,7 @@ function Feeds() {
 
   return (
     <>
-      {modal ? <PostModal closeModal={closeModal} /> : null}
+      {modal ? <PostModal closeModal={closeModal} subjectId={state} /> : null}
       <HeadProfile subjectId={state} />
       {check ? (
         <NoQuestion />

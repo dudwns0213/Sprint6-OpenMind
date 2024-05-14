@@ -12,7 +12,7 @@ const TextArea = styled.textarea`
   border-radius: 8px;
   font-size: 16px;
   line-height: 22px;
-  width: 532px;
+  width: 100%;
   height: 180px; // 디자인에 맞춰 textarea 영역의 기본 높이를 설정해 주세요
   resize: none; // 우측 하단 코너의 textarea 영역 크기 조절 기능을 없애줍니다
 
@@ -26,7 +26,7 @@ const TextArea = styled.textarea`
 `;
 
 const CompleteButton = styled.button`
-  width: 532px;
+  width: 100%;
   height: 46px;
   gap: 8px;
   background-color: #542f1a;
@@ -45,6 +45,10 @@ const CompleteButton = styled.button`
     cursor: default;
     pointer-events: none;
   }
+`;
+const Container = styled.div`
+  //반응형을 위해 div태그 추가하여 내부요소가 꽉 차게 함
+  width: 100%;
 `;
 
 function TextAreaItem({ question, subjectsData }) {
@@ -85,7 +89,7 @@ function TextAreaItem({ question, subjectsData }) {
   };
 
   return (
-    <>
+    <Container>
       {answerData ? (
         <UpdatedAnswer answerData={answerData} subjectsData={subjectsData} />
       ) : (
@@ -105,7 +109,7 @@ function TextAreaItem({ question, subjectsData }) {
           {submittingError && <div>{submittingError.message}</div>}
         </form>
       )}
-    </>
+    </Container>
   );
 }
 

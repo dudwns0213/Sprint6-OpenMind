@@ -33,6 +33,7 @@ const QuestionBrownText = styled.div`
 `;
 const StyledDiv = styled.div`
   padding: 16px; //여백 추가
+  margin-bottom: 50px;
 `;
 const Loading = styled.div`
   //로딩중임을 표시함
