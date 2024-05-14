@@ -5,6 +5,7 @@ import QuestionListItems from "./QuestionListItems";
 import getQuestions from "../../api/api.js";
 import DeleteButton from "./DeleteButton.jsx";
 import deleteQuestion from "../../api/deleteQuestions.js";
+import getAllQuestions from "../../api/getAllQuestions.js";
 
 const QuestionBox = styled.div`
   background-color: #f5f1ee;
@@ -39,8 +40,9 @@ const Loading = styled.div`
   //로딩중임을 표시함
   text-align: center;
 `;
-function QuestionListUser({ type, subjectId }) {
+function QuestionListUser({ type, subjectId, handleCheck }) {
   const [questionsData, setQuestionsData] = useState([]);
+  const [allQuestions, setAllQuestions] = useState([]); //limit걸리지 않은 전체 데이터 저장
   const [next, setNext] = useState(""); //api의 next 파라미터 가져와서 다음에 가져올 데이터 url 저장
   // const [limit, setLimit] = useState();
   // const [offset, setOffset] = useState(0);
@@ -52,6 +54,12 @@ function QuestionListUser({ type, subjectId }) {
     const data = await getQuestions(subjectId, {});
     setQuestionsData(data);
     setNext(`${data.next}`); //처음 데이터 받아올때 next에 다음 가져올 데이터 url 저장
+  };
+
+  const fetchAllQuestions = async () => {
+    //limit 걸리지 않은 모든 데이터
+    const Alldata = await getAllQuestions(subjectId, {});
+    setAllQuestions(Alldata);
   };
 
   const fetchMore = async () => {
@@ -70,6 +78,7 @@ function QuestionListUser({ type, subjectId }) {
 
   useEffect(() => {
     fetchQuestions();
+    fetchAllQuestions();
     setLoading(true);
   }, [subjectId]); //id받아올때마다 다시 실행
 
@@ -101,7 +110,7 @@ function QuestionListUser({ type, subjectId }) {
       }
       // 모든 질문 삭제 요청을 동시에 보내고, 모든 요청이 완료될 때까지 기다림
       await Promise.all(
-        questionsData.results.map(async (question) => {
+        allQuestions.results.map(async (question) => {
           const data = await deleteQuestion(question.id);
           setQuestionsData(data);
           console.log(`질문 삭제: ${question.id}`);
@@ -109,6 +118,9 @@ function QuestionListUser({ type, subjectId }) {
       );
     } catch (error) {
       console.error("질문 삭제 실패", error);
+    } finally {
+      setDone(true); //fetchmore함수를 실행시키지 않도록 조치
+      handleCheck(true); //NoQuestion 보이게 함
     }
   };
 
