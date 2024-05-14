@@ -68,7 +68,7 @@ const SnsArea = styled.div`
   gap: 12px;
 `;
 
-const HeadProfile = ({ name, image }) => {
+const HeadProfile = ({ name, image, subjectId }) => {
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false); // 토스트메시지의 가시성
   const [subjectsData, setSubjectsData] = useState([]); //api 데이터
@@ -95,7 +95,7 @@ const HeadProfile = ({ name, image }) => {
   };
   const fetchSubjects = async () => {
     //데이터 가져올 함수
-    const users = await getUsers();
+    const users = await getUsers(subjectId, {}); //id에 따라 동적으로 데이터 가져옴
     console.log(users);
     setSubjectsData(users);
   };
