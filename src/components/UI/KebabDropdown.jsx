@@ -23,10 +23,10 @@ const Box = styled.div`
   }
 `;
 
-export default function KebabDropdown() {
+export default function KebabDropdown({ handleEditClick }) {
   return (
     <Container>
-      <Box>
+      <Box onClick={handleEditClick}>
         <EditIcon width="16px" height="16px" />
         <p>수정하기</p>
       </Box>
