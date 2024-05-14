@@ -76,8 +76,8 @@ const PostForm = () => {
     if(nameArray.includes(userName)) {
       const nameIndex = nameArray.indexOf(userName);
       const nameObject = jsonObject.results[nameIndex];
-      setUserId(nameObject.id)
-      userStorage.setItem(userName,userId);
+      setUserId(nameObject.id);
+      userStorage.setItem(userName,nameObject.id);
       navigate(`post/${nameObject.id}/answer`);
 
         }else{const response = await fetch('https://openmind-api.vercel.app/6-7/subjects/'

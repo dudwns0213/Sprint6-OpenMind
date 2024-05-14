@@ -9,6 +9,7 @@ import SnsFaceBook from "../../assets/icons/ic_facebook_color.svg?react";
 import ToastMessage from "./ToastMessage";
 import * as func from "../../util/Sns.js";
 import getUsers from "../../api/getUsers.js";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;

@@ -18,3 +18,4 @@ export async function getUsers(params = {}) {
 }
 
 export default getUsers;
+
