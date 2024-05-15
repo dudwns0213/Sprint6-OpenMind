@@ -31,8 +31,12 @@ const QuestionButton = styled.button`
   text-decoration: none;
   color: #ffffff;
 
-  &:hover {
-    border: solid 2px ${colors.BROWN_50};
+  transition: transform 0.2s ease-in-out;
+
+  &:active {
+    background-color: ${(props) =>
+      props.disabled ? colors.BROWN_20 : colors.BROWN_50};
+    transform: scale(0.98);
   }
 
   @media (max-width: 767px) {

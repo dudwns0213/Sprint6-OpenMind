@@ -19,3 +19,7 @@ function App() {
 }
 
 export default App;
+
+// api 코드 합치기
+// 컴포넌트 안에서 api를 호출했을 때(fetch), 파악 후 옮기기
+// import 경로 절대경로로 바꾸기

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import createAnswers from "../../api/createAnswers";
 import UpdatedAnswer from "./UpdatedAnswer";
+import { colors } from "../../styles/colors";
 
 const TextArea = styled.textarea`
   padding: 16px;
@@ -36,8 +37,12 @@ const CompleteButton = styled.button`
   font-size: 16px;
   cursor: pointer;
 
-  &:hover {
-    background-color: #542f1a;
+  transition: transform 0.2s ease-in-out;
+
+  &:active {
+    background-color: ${(props) =>
+      props.disabled ? colors.BROWN_20 : colors.BROWN_50};
+    transform: scale(0.98);
   }
 
   &:disabled {
