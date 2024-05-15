@@ -24,6 +24,7 @@ const ButtonDelete = styled.button`
   cursor: pointer;
 
   display: flex;
+  justify-content: center; //글씨 중앙 정렬
   align-items: center; //글씨를 세로 기준으로 중앙에 오도록
   @media (max-width: 576px) {
     //삭제버튼 반응형

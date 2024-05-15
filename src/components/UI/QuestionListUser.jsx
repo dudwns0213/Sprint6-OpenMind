@@ -48,6 +48,7 @@ function QuestionListUser({ type, subjectId, handleCheck }) {
   // const [offset, setOffset] = useState(0);
   const [done, setDone] = useState(false); // 데이터를 다 불러온 상태
   const [loading, setLoading] = useState(false); //로딩 상태
+  const [rendered, setRendered] = useState(false); //처음 렌더링 이후 무한스크롤하기 위해 추가
   const bottom = useRef(null); //무한 스크롤을 위한 참조 생성
 
   const fetchQuestions = async () => {
@@ -79,7 +80,7 @@ function QuestionListUser({ type, subjectId, handleCheck }) {
   useEffect(() => {
     fetchQuestions();
     fetchAllQuestions();
-    setLoading(true);
+    setRendered(true);
   }, [subjectId]); //id받아올때마다 다시 실행
 
   useEffect(() => {
@@ -88,9 +89,10 @@ function QuestionListUser({ type, subjectId, handleCheck }) {
       (entries) => {
         if (done === true) return setLoading(false); // 데이터를 다 불러오면 함수 종료
         // 관찰 대상(페이지 맨아래)가 화면에 들어왔는지 확인 + 첫 데이터 불러온 후에 실행하게 함
-        if (entries[0].isIntersecting && loading) {
+        if (entries[0].isIntersecting && rendered) {
           setLoading(true);
           fetchMore(); // 추가 데이터 로드 함수 실행
+          setLoading(false);
         }
       },
       { threshold: 1.0 } // 관찰 대상이 완전히 화면에 들어왔을 때 콜백함수 실행함

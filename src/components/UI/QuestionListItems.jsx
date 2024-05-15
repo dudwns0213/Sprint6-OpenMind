@@ -173,6 +173,7 @@ function QuestionListItems({ type, question, subjectId }) {
             {isDropdownVisible ? (
               <KebabDropdown
                 handleEditClick={handleEditClick}
+                question={question}
                 handleDeleteClick={handleDeleteClick}
               />
             ) : null}
@@ -198,6 +199,7 @@ function QuestionListItems({ type, question, subjectId }) {
             subjectsData={subjectsData}
             handleAnswer={setAnswer}
             isEditing={isEditing}
+            answer={answer}
           />
         )}
       </QuestionTextArea>
