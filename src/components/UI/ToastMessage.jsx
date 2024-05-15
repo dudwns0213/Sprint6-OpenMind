@@ -1,10 +1,43 @@
 import React from "react";
-import "./ToastMessage.css"; // 토스트 메시지 스타일 정의
+import styled, { keyframes } from "styled-components";
+
+const fadeOut = keyframes`
+  from {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
+const ToastMessageContainer = styled.div`
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+  opacity: 0.9;
+  transition: opacity 0.5s ease-out;
+
+  ${({ isVisible }) =>
+    !isVisible &&
+    `
+    animation: ${fadeOut} 0.5s ease-out forwards;
+  `}
+`;
 
 const ToastMessage = ({ message, isVisible }) => {
-  if (!isVisible) return null; // 토스트 메시지가 보이지 않을 때 아무것도 반환하지 않음
+  if (!isVisible) return null;
 
-  return <div className="toast-message">{message}</div>;
+  return (
+    <ToastMessageContainer isVisible={isVisible}>
+      {message}
+    </ToastMessageContainer>
+  );
 };
 
 export default ToastMessage;

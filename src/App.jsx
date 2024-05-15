@@ -1,17 +1,17 @@
 import React from "react";
 import { Routes, Route, BrowserRouter, Router } from "react-router-dom";
-import QuestionUserPage from "./pages/QuestionUserPage.jsx";
-import Feeds from "./pages/post/Feeds";
-import HomePage from "./pages/homepage/HomePage.jsx";
-import AnswerPage from "./pages/AnswerPage.jsx";
+import MainPage from "./pages/MainPage/MainPage.jsx";
+import QuestionListPage from "./pages/QuestionListPage/QuestionListPage";
+import FeedPage from "./pages/FeedPage/FeedPage";
+import AnswerPage from "./pages/AnswerPage/AnswerPage.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<HomePage />} />
-        <Route path="/list" element={<QuestionUserPage />} />
-        <Route path="/post/:itemId" element={<Feeds />} />
+        <Route index element={<MainPage />} />
+        <Route path="/list" element={<QuestionListPage />} />
+        <Route path="/post/:itemId" element={<FeedPage />} />
         <Route path="/post/:itemId/answer" element={<AnswerPage />} />
       </Routes>
     </BrowserRouter>
