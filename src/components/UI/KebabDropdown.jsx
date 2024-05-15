@@ -4,6 +4,7 @@ import EditIcon from "../../assets/icons/ic_edit.svg?react";
 import DeleteIcon from "../../assets/icons/ic_close.svg?react";
 import RejectIcon from "../../assets/icons/ic_rejection.svg?react";
 import rejectAnswer from "../../api/rejectAnswer";
+
 import { colors } from "../../styles/colors";
 const Container = styled.div`
   position: absolute;
@@ -30,7 +31,11 @@ const Box = styled.button`
     pointer-events: none;
   }
 `;
-export default function KebabDropdown({ handleEditClick, question }) {
+export default function KebabDropdown({
+  handleEditClick,
+  handleDeleteClick,
+  question,
+}) {
   const handleReject = async (e) => {
     //답변거절 기능
     e.preventDefault();
@@ -48,7 +53,7 @@ export default function KebabDropdown({ handleEditClick, question }) {
         <EditIcon width="16px" height="16px" />
         <p>수정하기</p>
       </Box>
-      <Box>
+      <Box onClick={handleDeleteClick}>
         <DeleteIcon width="16px" height="16px" />
         <p>삭제하기</p>
       </Box>
