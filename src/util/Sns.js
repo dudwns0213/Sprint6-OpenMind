@@ -7,7 +7,7 @@ export const shareKakao = (name, src, Url) => {
     objectType: "feed",
     content: {
       title: "익명으로 질문을 남기세요 !",
-      description: `${name}에게 질문 남기러 가기`,
+      description: `질문 남기러 가기`,
       imageUrl: `${src}`,
       link: {
         mobileWebUrl: Url,
