@@ -9,7 +9,7 @@ import SnsFaceBook from "../../assets/icons/ic_facebook_color.svg?react";
 import ToastMessage from "./ToastMessage";
 import * as func from "../../util/Sns.js";
 import getUsers from "../../api/getUsers.js";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -68,15 +68,15 @@ const SnsArea = styled.div`
   gap: 12px;
 `;
 
-const HeadProfile = ({ name, image, subjectId }) => {
+const HeadProfile = ({ image, subjectId }) => {
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false); // 토스트메시지의 가시성
   const [subjectsData, setSubjectsData] = useState([]); //api 데이터
 
   const Url = window.location.href; // 현재 페이지의 URL을 가져오기
 
-  const shareKakao = (name, image, url) => {
-    func.shareKakao(name, image, url);
+  const shareKakao = (image, url) => {
+    func.shareKakao(image, url);
   };
 
   const shareFacebook = (url) => {
@@ -106,7 +106,9 @@ const HeadProfile = ({ name, image, subjectId }) => {
     <div>
       <Container>
         <Profile>
-          <OpenMind />
+          <Link to="/">
+            <OpenMind />
+          </Link>
           <TitleIcon src={subjectsData.imageSource} />
           <NickName>{subjectsData.name}</NickName>
           <SnsArea>

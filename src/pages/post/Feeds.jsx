@@ -7,11 +7,18 @@ import HeadProfile from "../../components/UI/HeadProfile.jsx";
 import { useLocation } from "react-router-dom";
 import { getQuestions } from "../../api/api.js";
 import NoQuestion from "../../components/UI/NoQuestion.jsx";
+import { Link } from "react-router-dom";
 
 function Feeds() {
   const { state } = useLocation(); //subject id받아오기
   const [modal, setModal] = useState(false);
   const [check, setCheck] = useState(false);
+  const [isPostSubmitted, setIsPostSubmitted] = useState(false);
+
+  const handlePostSubmitted = () => {
+    setIsPostSubmitted(true);
+    location.reload();
+  };
 
   const showModal = () => {
     setModal(true);
@@ -31,13 +38,21 @@ function Feeds() {
       setCheck(false);
     }
   };
+
   useEffect(() => {
+    console.log("다시 렌더링");
     fetchQuestions();
-  }, [state]);
+  }, [state, isPostSubmitted]);
 
   return (
     <>
-      {modal ? <PostModal closeModal={closeModal} subjectId={state} /> : null}
+      {modal ? (
+        <PostModal
+          closeModal={closeModal}
+          subjectId={state}
+          onPostSubmitted={handlePostSubmitted}
+        />
+      ) : null}
       <HeadProfile subjectId={state} />
       {check ? (
         <NoQuestion />

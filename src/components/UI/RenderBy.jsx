@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import AnswerContent from "./AnswerContent";
 import TextAreaItem from "./TextAreaItem";
 
-export default function RenderBy({ type, question, subjectsData }) {
+export default function RenderBy({
+  type,
+  question,
+  subjectsData,
+  handleAnswer,
+}) {
   const [answer, setAnswer] = useState(question);
   useEffect(() => {
     console.log(`changed!`);
@@ -16,7 +21,11 @@ export default function RenderBy({ type, question, subjectsData }) {
         answer={answer}
       />
     ) : (
-      <TextAreaItem question={question} subjectsData={subjectsData} />
+      <TextAreaItem
+        question={question}
+        subjectsData={subjectsData}
+        handleAnswer={handleAnswer}
+      />
     );
   } else {
     // 피드 페이지일 때

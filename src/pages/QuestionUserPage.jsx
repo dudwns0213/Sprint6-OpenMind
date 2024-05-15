@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import OpenLogo from "../assets/logo/openmindlogo.svg?react";
-import QuestionButtonTop from "../components/UI/QuestionButtonTop";
+import AnswerButtonTop from "../components/UI/AnswerButtonTop";
 import DropdownMenu from "../components/UI/DropdownMenu";
 import UserCard from "./components/UserCard";
 import { useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import { getCard } from "../api/personalList";
 import NextBtn from "../assets/icons/paginationNext.svg?react";
 import PrevBtn from "../assets/icons/paginationPrev.svg?react";
 import "./Pagination.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -117,25 +117,46 @@ const getLimit = () => {
 };
 
 function QuestionUserPage() {
+  const idLocal = localStorage.getItem("id");
+  console.log(idLocal)
   // api호출하고 받은 아이템 state itemList
   const [card, setCard] = useState([]);
   // api sort파라미터 값 넣어주는 state orderBy
   const [sort, setSort] = useState("name");
-  // api offset파라미터 offset=0이면 0번부터 시작하는 state
+  // api offset파라미터 offset=0이면 0번부터 시작하는 state(api에서 limit값을 곱해줘서 이동하는 페이지마다 시작하는 item의 초깃값을 전달 현재페이지에 해당하는 currentPage라고 봐야함)
   const [offset, setOffset] = useState(1);
   // api limit파라미터 받아오는 아이템 개수 state pageSize
-  const [limit, setLimit] = useState(getLimit()); 
+  const [limit, setLimit] = useState(getLimit());
   // api 호출하고 받은 아이템 전체 개수 확인 state
   const [totalCount, setTotalCount] = useState(0);
+  // 받아온 아이템으로 총 page 개수 state
+  const totalPages = Math.ceil(totalCount / limit);
+                    //현재 페이지번호,전체 페이지 수,표시할 페이지 개수
+  const getPageRange = (currentPage, totalPages, pageRange = 5) => {
+    const halfRange = Math.floor(pageRange / 2); // 현재 표시할 페이지 개수를 통해서 currentPage 좌우에 표시할 페이지 개수를 정하는 변수
+    let start = currentPage - halfRange; // currentPage 좌측 페이지 번호를 담당 5번페이지가 currentPage라면 3이랑 4가 좌측에서 표시되는 변수
+    let end = currentPage + halfRange; // currentPage 우측 페이지 번호를 담당 5번페이지가 currentPage라면 6이랑 7이 우측에서 표시되는 변수
+    if(totalPages < currentPage) {
+      setOffset(totalPages);
+    }
+    if (start < 1) { // currentPage가 1,2,3 일 경우에 1,2,3,4,5 페이지를 유지하는 조건문 
+      start = 1;
+      end = pageRange;
+    }
+
+    if (end > totalPages) { // currentPage가 끝쪽에 도달했을때 end 변수값이 전체 페이지값 보다 높을시 조건실행
+      end = totalPages; //end값(currentPage + halfRange)이 전체 페이지 개수보다 클때는 end값 = 전체 페이지 값
+      start = (totalPages - pageRange) + 1;
+    }
+
+    return { start, end };
+  };
+  const { start, end } = getPageRange(offset, totalPages); // start,end에 getPageRange(offset, totalPages)값을 할당
 
   const changeSortButton = sortChoice => {
     setSort(sortChoice);
     setOffset(1);
   };
-  let allItemsCount = [];
-  for (let i = 1; i <= Math.ceil(totalCount / limit); i++) {
-    allItemsCount.push(i);
-  }
 
   useEffect(() => {
     const handleCardItemLoad = async () => {
@@ -164,7 +185,7 @@ function QuestionUserPage() {
   };
 
   const prev = () => {
-    if (offset === 0) return;
+    if (offset === 1) return;
     setOffset(offset - 1);
   };
 
@@ -174,7 +195,9 @@ function QuestionUserPage() {
         <Link to="/">
           <OpenLogoPic />
         </Link>
-        <QuestionButtonTop text="답변하러 가기" />
+        <Link to={idLocal ? `/post/:itemId/answer` : "/"}>
+          <AnswerButtonTop text="답변하러 가기" />
+        </Link>
       </TopArea>
       <TitleArea>
         <WhoQuestion>누구에게 질문할까요?</WhoQuestion>
@@ -188,21 +211,19 @@ function QuestionUserPage() {
         </QuestionListGrid>
       </Ct>
       <PaginationArea>
-        <PrevPageBtn onClick={prev} />
-        {allItemsCount.map(item => {
-          return (
-            <div
-              key={item}
-              className={`paginationButton ${
-                offset === item  ? "active" : ""
-              }`}
-              onClick={() => setOffset(item)}
-            >
-              {item}
-            </div>
-          );
-        })}
-        <NextPageBtn onClick={next} />
+          <PrevPageBtn onClick={prev} />
+          {Array.from({ length: end - start + 1 }, (_, i) => start + i).map(
+            item => (
+              <div
+                key={item}
+                className={`paginationButton ${offset === item ? "active" : ""}`}
+                onClick={() => setOffset(item)}
+              >
+                {item}
+              </div>
+            )
+          )}
+          <NextPageBtn onClick={next} />
       </PaginationArea>
     </Container>
   );
