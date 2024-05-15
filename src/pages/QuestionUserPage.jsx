@@ -7,10 +7,10 @@ import { useEffect, useState } from "react";
 import { getCard } from "../api/personalList";
 import NextBtn from "../assets/icons/paginationNext.svg?react";
 import PrevBtn from "../assets/icons/paginationPrev.svg?react";
-import "./Pagination.css";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
+  background-color: #F9F9F9;
   width: 100%;
   max-width: 1004px;
   padding: 40px 0 60px;
@@ -49,7 +49,7 @@ const WhoQuestion = styled.span`
   font-family: Actor;
   font-weight: 400;
   font-size: 40px;
-  line-height: 47.73px;
+  line-height: 48.12px;
   text-align: center;
   @media (max-width: 676px) {
     font-size: 24px;
@@ -86,13 +86,20 @@ const NextPageBtn = styled(NextBtn)`
   width: 40px;
   height: 40px;
   cursor: pointer;
+  &.disabled {
+    cursor: default;
+    opacity: .5;
+  }
 `;
 const PrevPageBtn = styled(PrevBtn)`
   width: 40px;
   height: 40px;
   cursor: pointer;
+  &.disabled {
+    cursor: default;
+    opacity: .5;
+  }
 `;
-
 const Ct = styled.div`
   padding: 0 32px;
   display: flex;
@@ -101,6 +108,20 @@ const Ct = styled.div`
     padding: 0 24px;
   }
 `;
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-family: Actor;
+  font-size: 20px;
+  color: #818181;
+  &.active {
+    color: #542F1A;
+  }
+`
 
 const getLimit = () => {
   const width = window.innerWidth;
@@ -137,9 +158,7 @@ function QuestionUserPage() {
     const halfRange = Math.floor(pageRange / 2); // 현재 표시할 페이지 개수를 통해서 currentPage 좌우에 표시할 페이지 개수를 정하는 변수
     let start = currentPage - halfRange; // currentPage 좌측 페이지 번호를 담당 5번페이지가 currentPage라면 3이랑 4가 좌측에서 표시되는 변수
     let end = currentPage + halfRange; // currentPage 우측 페이지 번호를 담당 5번페이지가 currentPage라면 6이랑 7이 우측에서 표시되는 변수
-    if(totalPages < currentPage) {
-      setOffset(totalPages);
-    }
+
     if (start < 1) { // currentPage가 1,2,3 일 경우에 1,2,3,4,5 페이지를 유지하는 조건문 
       start = 1;
       end = pageRange;
@@ -170,7 +189,7 @@ function QuestionUserPage() {
     };
 
     window.addEventListener("resize", handleResize); // 화면 크기 변경할 때마다 pageSize를 다시 계산해 넣음
-    
+
     handleCardItemLoad();
 
     // Cleanup function
@@ -180,14 +199,14 @@ function QuestionUserPage() {
   }, [sort, offset, limit]);
 
   const next = () => {
-    if (Math.ceil(totalCount / limit) === offset) return;
+    if (totalPages === offset) return;
     setOffset(offset + 1);
   };
-
   const prev = () => {
     if (offset === 1) return;
     setOffset(offset - 1);
   };
+  console.log(offset,limit,sort)
 
   return (
     <Container>
@@ -211,19 +230,19 @@ function QuestionUserPage() {
         </QuestionListGrid>
       </Ct>
       <PaginationArea>
-          <PrevPageBtn onClick={prev} />
+          <PrevPageBtn onClick={prev} className={`${offset === 1 ? "disabled" : ""}`} />
           {Array.from({ length: end - start + 1 }, (_, i) => start + i).map(
             item => (
-              <div
+              <Pagination
                 key={item}
-                className={`paginationButton ${offset === item ? "active" : ""}`}
+                className={`${offset === item ? "active" : ""}`}
                 onClick={() => setOffset(item)}
               >
                 {item}
-              </div>
+              </Pagination>
             )
           )}
-          <NextPageBtn onClick={next} />
+          <NextPageBtn onClick={next} className={`${offset === totalPages ? "disabled" : ""}`} />
       </PaginationArea>
     </Container>
   );

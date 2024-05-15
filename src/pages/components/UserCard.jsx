@@ -38,6 +38,7 @@ const QuestionCount = styled.div`
   align-items: center;
   color: #818181;
   @media (max-width: 676px) {
+    justify-content: space-around;
     p {
       font-size: 14px;
     }
@@ -72,14 +73,17 @@ const CardImgArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  @media (max-width: 676px) {
+    align-items: center;
+  }
 `;
 const Profile = styled.img`
   width: 60px;
   height: 60px;
   border-radius: 50%;
   @media (max-width: 676px) {
-    width: 48px;
-    height: 48px;
+    width: 55px;
+    height: 55px;
   }
 `;
 

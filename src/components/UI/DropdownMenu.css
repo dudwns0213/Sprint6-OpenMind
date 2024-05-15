@@ -18,7 +18,6 @@
   align-items: center;
   font-weight: 500;
   line-height: 18px;
-;
 }
 .sortDropdownTriggerButton.active {
   border: 1px solid black;
@@ -37,9 +36,10 @@
 
 .dropdownMenu {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   position: absolute;
-  top: 235px;
+  top: 234px;
   width: 80px;
   height: 68px;
   background: #fff;
@@ -48,7 +48,7 @@
   box-shadow: 0 2px 4px #8c8c8c40;
   z-index: 99;
   @media (max-width: 676px) {
-    top: 270px;
+    top: 240px;
   }
 }
 
