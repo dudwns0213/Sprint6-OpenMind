@@ -38,7 +38,6 @@
 .dropdownMenu {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   position: absolute;
   top: 235px;
   width: 80px;
