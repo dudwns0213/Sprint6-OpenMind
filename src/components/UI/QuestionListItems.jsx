@@ -11,6 +11,8 @@ import { timeSince } from "../../util/TimeSince";
 import KebabDropdown from "./KebabDropdown";
 import postReaction from "../../api/postReaction";
 import RenderBy from "./RenderBy";
+import AnswerPatchTextArea from "./AnswerPatchTextArea";
+import { deleteAnswers } from "../../api/OpenMindApi.js";
 
 const TitleIcon = styled.img`
   object-fit: cover;
@@ -112,6 +114,7 @@ function QuestionListItems({ type, question, subjectId }) {
   const [likeChanged, setLikeChanged] = useState(false);
   const [disLikeChanged, setDislikeChanged] = useState(false);
   const [answer, setAnswer] = useState(question.answer);
+  const [isEditing, setIsEditing] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
@@ -144,6 +147,20 @@ function QuestionListItems({ type, question, subjectId }) {
     }
   };
 
+  const handleEditClick = () => {
+    setIsEditing(true); // isPatchMode 상태를 true로 설정
+  };
+
+  const handleDeleteClick = async () => {
+    try {
+      await deleteAnswers(question.id); //답변 보낼때 특정 질문id로 보내기 위해 id값 추가
+    } catch (error) {
+      console.log(error); // 에러가 발생하면 submittingError 상태를 업데이트하여 사용자에게 피드백 제공
+    } finally {
+      window.location.reload();
+    }
+  };
+
   return (
     <QuestionArea>
       <QuestionHeader>
@@ -153,7 +170,13 @@ function QuestionListItems({ type, question, subjectId }) {
         {type ? (
           <KebabContainer>
             <Kebab onClick={toggleDropdown} />
-            {isDropdownVisible ? <KebabDropdown /> : null}
+            {isDropdownVisible ? (
+              <KebabDropdown
+                handleEditClick={handleEditClick}
+                question={question}
+                handleDeleteClick={handleDeleteClick}
+              />
+            ) : null}
           </KebabContainer>
         ) : null}
       </QuestionHeader>
@@ -162,12 +185,23 @@ function QuestionListItems({ type, question, subjectId }) {
         <QuestionTitle>{question.content}</QuestionTitle>
       </QuestionTitleArea>
       <QuestionTextArea>
-        <RenderBy
-          type={type}
-          question={question}
-          subjectsData={subjectsData}
-          handleAnswer={setAnswer}
-        />
+        {isEditing ? (
+          <AnswerPatchTextArea
+            question={question}
+            subjectsData={subjectsData}
+            answerData={answer.content}
+            answerId={answer.id}
+          />
+        ) : (
+          <RenderBy
+            type={type}
+            question={question}
+            subjectsData={subjectsData}
+            handleAnswer={setAnswer}
+            isEditing={isEditing}
+            answer={answer}
+          />
+        )}
       </QuestionTextArea>
       <QuestionLikeArea>
         <LikeArea

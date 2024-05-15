@@ -5,6 +5,7 @@ import QuestionListItems from "./QuestionListItems";
 import getQuestions from "../../api/api.js";
 import DeleteButton from "./DeleteButton.jsx";
 import deleteQuestion from "../../api/deleteQuestions.js";
+import getAllQuestions from "../../api/getAllQuestions.js";
 
 const QuestionBox = styled.div`
   background-color: #f5f1ee;
@@ -39,19 +40,27 @@ const Loading = styled.div`
   //로딩중임을 표시함
   text-align: center;
 `;
-function QuestionListUser({ type, subjectId }) {
+function QuestionListUser({ type, subjectId, handleCheck }) {
   const [questionsData, setQuestionsData] = useState([]);
+  const [allQuestions, setAllQuestions] = useState([]); //limit걸리지 않은 전체 데이터 저장
   const [next, setNext] = useState(""); //api의 next 파라미터 가져와서 다음에 가져올 데이터 url 저장
   // const [limit, setLimit] = useState();
   // const [offset, setOffset] = useState(0);
   const [done, setDone] = useState(false); // 데이터를 다 불러온 상태
   const [loading, setLoading] = useState(false); //로딩 상태
+  const [rendered, setRendered] = useState(false); //처음 렌더링 이후 무한스크롤하기 위해 추가
   const bottom = useRef(null); //무한 스크롤을 위한 참조 생성
 
   const fetchQuestions = async () => {
     const data = await getQuestions(subjectId, {});
     setQuestionsData(data);
     setNext(`${data.next}`); //처음 데이터 받아올때 next에 다음 가져올 데이터 url 저장
+  };
+
+  const fetchAllQuestions = async () => {
+    //limit 걸리지 않은 모든 데이터
+    const Alldata = await getAllQuestions(subjectId, {});
+    setAllQuestions(Alldata);
   };
 
   const fetchMore = async () => {
@@ -70,7 +79,8 @@ function QuestionListUser({ type, subjectId }) {
 
   useEffect(() => {
     fetchQuestions();
-    setLoading(true);
+    fetchAllQuestions();
+    setRendered(true);
   }, [subjectId]); //id받아올때마다 다시 실행
 
   useEffect(() => {
@@ -79,9 +89,10 @@ function QuestionListUser({ type, subjectId }) {
       (entries) => {
         if (done === true) return setLoading(false); // 데이터를 다 불러오면 함수 종료
         // 관찰 대상(페이지 맨아래)가 화면에 들어왔는지 확인 + 첫 데이터 불러온 후에 실행하게 함
-        if (entries[0].isIntersecting && loading) {
+        if (entries[0].isIntersecting && rendered) {
           setLoading(true);
           fetchMore(); // 추가 데이터 로드 함수 실행
+          setLoading(false);
         }
       },
       { threshold: 1.0 } // 관찰 대상이 완전히 화면에 들어왔을 때 콜백함수 실행함
@@ -101,7 +112,7 @@ function QuestionListUser({ type, subjectId }) {
       }
       // 모든 질문 삭제 요청을 동시에 보내고, 모든 요청이 완료될 때까지 기다림
       await Promise.all(
-        questionsData.results.map(async (question) => {
+        allQuestions.results.map(async (question) => {
           const data = await deleteQuestion(question.id);
           setQuestionsData(data);
           console.log(`질문 삭제: ${question.id}`);
@@ -109,6 +120,9 @@ function QuestionListUser({ type, subjectId }) {
       );
     } catch (error) {
       console.error("질문 삭제 실패", error);
+    } finally {
+      setDone(true); //fetchmore함수를 실행시키지 않도록 조치
+      handleCheck(true); //NoQuestion 보이게 함
     }
   };
 

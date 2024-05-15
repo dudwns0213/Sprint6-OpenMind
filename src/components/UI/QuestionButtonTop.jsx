@@ -46,6 +46,10 @@ const Button = styled.button`
     right: auto;
     left: 50%;
     transform: translateX(-50%);
+    font-size: 12px;
+    width: 123px;
+    height: 34px;
+    padding: 8px 21px 8px 7px
   }
 `;
 const StyledIcon = styled(ArrowIcon)`
@@ -55,6 +59,10 @@ const StyledIcon = styled(ArrowIcon)`
   top: 14px;
   right: 14px;
   fill: #542f1a;
+  @media (max-width: 767px){
+    top: 8px;
+    right:8px;
+  }
 `;
 
 function QuestionButtonTop({ text }) {

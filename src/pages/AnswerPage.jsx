@@ -34,7 +34,11 @@ const AnswerPage = () => {
       {check ? (
         <NoQuestion />
       ) : (
-        <QuestionListUser type={true} subjectId={userId} />
+        <QuestionListUser
+          type={true}
+          subjectId={userId}
+          handleCheck={setCheck}
+        />
       )}
     </div>
   );

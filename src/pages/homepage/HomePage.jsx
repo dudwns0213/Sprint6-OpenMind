@@ -24,8 +24,8 @@ const BackgroundImg = styled(BackImg)`
   position: fixed;
   bottom: 0;
   z-index: -5;
-  width: auto;
-  height: 100%;
+  width: 100%;
+  height: auto;
 
   fill: none;
 

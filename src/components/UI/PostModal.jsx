@@ -112,6 +112,13 @@ const ModalPostButton = styled.button`
   height: 46px;
   color: #ffffff;
   font-size: 16px;
+  transition: transform 0.2s ease-in-out;
+
+  &:active {
+    background-color: ${(props) =>
+      props.disabled ? colors.BROWN_20 : colors.BROWN_50};
+    transform: scale(0.98);
+  }
 `;
 
 const ProfileImg = styled.img`

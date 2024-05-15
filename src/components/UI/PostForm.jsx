@@ -31,8 +31,12 @@ const QuestionButton = styled.button`
   text-decoration: none;
   color: #ffffff;
 
-  &:hover {
-    border: solid 2px ${colors.BROWN_50};
+  transition: transform 0.2s ease-in-out;
+
+  &:active {
+    background-color: ${(props) =>
+      props.disabled ? colors.BROWN_20 : colors.BROWN_50};
+    transform: scale(0.98);
   }
 
   @media (max-width: 767px) {
@@ -66,7 +70,6 @@ const PostForm = () => {
   const handleSubmit = async () => {
     try {
       const jsonObject = await getSubject();
-
       const nameArray = jsonObject.results.map((item) => item.name);
       userStorage.clear();
       if (nameArray.includes(userName)) {
@@ -112,5 +115,4 @@ const PostForm = () => {
     </InputContainer>
   );
 };
-
 export default PostForm;
