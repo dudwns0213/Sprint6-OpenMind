@@ -68,15 +68,15 @@ const SnsArea = styled.div`
   gap: 12px;
 `;
 
-const HeadProfile = ({ image, subjectId }) => {
+const HeadProfile = ({ subjectId }) => {
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false); // 토스트메시지의 가시성
   const [subjectsData, setSubjectsData] = useState([]); //api 데이터
 
   const Url = window.location.href; // 현재 페이지의 URL을 가져오기
 
-  const shareKakao = (image, url) => {
-    func.shareKakao(image, url);
+  const shareKakao = (name, image, url) => {
+    func.shareKakao(name, image, url);
   };
 
   const shareFacebook = (url) => {
