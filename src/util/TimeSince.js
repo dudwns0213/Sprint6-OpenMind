@@ -24,5 +24,5 @@ export function timeSince(dateString) {
   if (interval > 1) {
     return Math.floor(interval) + "분전";
   }
-  return Math.floor(seconds) + "초전";
+  return "방금전"; //초단위는 방금전으로 생략
 }

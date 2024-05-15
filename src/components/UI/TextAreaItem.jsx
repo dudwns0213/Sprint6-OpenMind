@@ -102,7 +102,7 @@ function TextAreaItem({ question, subjectsData, handleAnswer }) {
           />
           <CompleteButton
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || content.length === 0}
             onClick={handleInputChange}
           >
             답변 완료
