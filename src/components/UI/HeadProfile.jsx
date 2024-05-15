@@ -13,7 +13,6 @@ import { Link, useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
   background-image: url("${OpenMindLogo}"); //임시 이미지 지정
   background-repeat: no-repeat;
@@ -22,6 +21,19 @@ const Container = styled.div`
     //헤더 배경화면 반응형
     background-size: 906px;
   }
+`;
+
+const Backgroundcolor = styled.div`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 234px;
+  background-color: #ffffff;
+  @media (max-width: 576px) {
+    //헤더 배경화면 반응형
+    background-size: 906px;
+  }
+  z-index: -9;
 `;
 
 const Profile = styled.div`
@@ -105,6 +117,7 @@ const HeadProfile = ({ name, image, subjectId }) => {
   return (
     <div>
       <Container>
+        <Backgroundcolor></Backgroundcolor>
         <Profile>
           <Link to="/">
             <OpenMind />
