@@ -68,7 +68,7 @@ const SnsArea = styled.div`
   gap: 12px;
 `;
 
-const HeadProfile = ({ subjectId }) => {
+const HeadProfile = ({ name, image, subjectId }) => {
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false); // 토스트메시지의 가시성
   const [subjectsData, setSubjectsData] = useState([]); //api 데이터
