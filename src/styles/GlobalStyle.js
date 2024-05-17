@@ -40,6 +40,7 @@ svg {
 body {
   word-break: keep-all;
   font-family: "Pretendard", sans-serif;
+  background-color: #f9f9f9;
 }
 `;
 
