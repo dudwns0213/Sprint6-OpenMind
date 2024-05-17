@@ -128,9 +128,11 @@ function QuestionListItems({ type, question, subjectId }) {
       if (type === "like") {
         setLikeColor("#1877F2"); // 좋아요 색상 변경
         setLikeCount((prevState) => prevState + 1);
+        setLikeChanged(true); //좋아요 그림 색상 변경
       } else if (type === "dislike") {
         setDislikeColor("black"); // 싫어요 색상 변경
         setDislikeCount((prevState) => prevState + 1);
+        setDislikeChanged(true); // 싫어요 그림 색상 변경
       }
     } catch (error) {
       console.error("Failed to post reaction: ", error);
@@ -196,7 +198,7 @@ function QuestionListItems({ type, question, subjectId }) {
       <QuestionLikeArea>
         <LikeArea
           onClick={() => {
-            handleClick(question.id, "like"), setLikeChanged(true);
+            handleClick(question.id, "like");
           }}
           disabled={isClicked}
         >
@@ -205,7 +207,7 @@ function QuestionListItems({ type, question, subjectId }) {
         </LikeArea>
         <LikeArea
           onClick={() => {
-            handleClick(question.id, "dislike"), setDislikeChanged(true);
+            handleClick(question.id, "dislike");
           }}
           disabled={isClicked}
         >

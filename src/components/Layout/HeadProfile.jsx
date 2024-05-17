@@ -80,7 +80,7 @@ const SnsArea = styled.div`
   gap: 12px;
 `;
 
-const HeadProfile = ({ name, image, subjectId }) => {
+const HeadProfile = ({ subjectId }) => {
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false); // 토스트메시지의 가시성
   const [subjectsData, setSubjectsData] = useState([]); //api 데이터
@@ -130,7 +130,7 @@ const HeadProfile = ({ name, image, subjectId }) => {
             />
             <SnsKakaoTalk
               onClick={() => {
-                shareKakao(name, image, Url);
+                shareKakao(subjectsData.name, subjectsData.imageSource, Url);
               }}
               style={{ cursor: "pointer" }}
             />
